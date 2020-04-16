@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
 {
 	public GameObject MovableFieldReference;
 	public PlayerPhase phase;
-	IPiece TargetPiece;
+	public IPiece TargetPiece;
 	List<GameObject> MovableFieldCache = new List<GameObject>();
 	List<Vector2Int> MovablePos = new List<Vector2Int>();
 	BoardAndPos BoardAndPosCache;
@@ -25,12 +25,16 @@ public class Player : MonoBehaviour
 	}
 	void PieceSelect()
 	{
+		if (!Input.GetMouseButtonDown(0))
+			return;
 		BoardAndPos rayPos = RayCastScreen();
 		if (rayPos.pos != Vector3.zero)
 			DisplayMovablePosition(rayPos);
 	}
 	void PieceMove()
 	{
+		if (!Input.GetMouseButtonDown(0))
+			return;
 		BoardAndPos rayPos = RayCastScreen();
 		if (rayPos.pos != Vector3.zero)
 		{
@@ -52,7 +56,8 @@ public class Player : MonoBehaviour
 			MovableFieldCache.Clear();
 			phase = PlayerPhase.SecondOath;
 		}
-
+		else
+			CancelPiece();
 	}
 	void CancelPiece()
 	{
@@ -84,8 +89,6 @@ public class Player : MonoBehaviour
 	{
 		BoardAndPos bp = new BoardAndPos();
 		bp.pos = Vector3.zero;
-		if (!Input.GetMouseButtonDown(0))
-			return bp;
 
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hit;
@@ -93,7 +96,6 @@ public class Player : MonoBehaviour
 		if (Physics.Raycast(ray, out hit, 100f, mask))
 		{
 			bp.board = hit.collider.GetComponent<Board>();
-			Debug.Log(bp.board);
 			bp.PosOnBoard = bp.board.ObjectSpaceToBoardSpace(hit.point);
 			bp.pos = hit.point;
 		}

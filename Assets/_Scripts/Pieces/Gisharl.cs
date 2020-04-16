@@ -2,6 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Gisharl : PieceBase
 {
+	protected override void Initialize()
+	{
+		pieceType = PieceType.Gisharl;
+	}
 	public override List<Vector2Int> CheckMovement()
 	{
 		List<Vector2Int> t = new List<Vector2Int>();

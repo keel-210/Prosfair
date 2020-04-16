@@ -2,6 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Cain : PieceBase
 {
+	protected override void Initialize()
+	{
+		pieceType = PieceType.Cain;
+	}
 	public override List<Vector2Int> CheckMovement()
 	{
 		List<Vector2Int> t = new List<Vector2Int>();
