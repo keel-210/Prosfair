@@ -4,16 +4,37 @@ using System.Linq;
 public class Board : MonoBehaviour
 {
 	public int size;
-	List<PieceBase> pieces;
-	PieceBase[,] piecesOnBoard;
+	public IPiece[,] pieces;
 	public Board(int _size)
 	{
 		size = _size;
-		piecesOnBoard = new PieceBase[size, size];
+		pieces = new IPiece[size, size];
+	}
+	void Start()
+	{
+		pieces = new IPiece[size, size];
 	}
 	public void UpdateBoardStatus()
 	{
-		pieces.ForEach(x => x.UpdateBoard());
+		foreach (IPiece p in pieces)
+			if (p != null)
+				p.BoardUpdate();
+	}
+	public void AddPiece(IPiece piece, Vector2Int Pos)
+	{
+		piece.board = this;
+		piece.PositionOnBoard = Pos;
+		pieces[Pos.x, Pos.y] = piece;
+		piece.Move(BoardSpaceToObjectSpace(Pos));
+	}
+	public void MovePiece(IPiece piece, Vector2Int nowPos, Vector2Int targetPos)
+	{
+		pieces[nowPos.x, nowPos.y] = null;
+		if (pieces[targetPos.x, targetPos.y] != null)
+			pieces[targetPos.x, targetPos.y].KillSelf();
+		piece.PositionOnBoard = targetPos;
+		pieces[targetPos.x, targetPos.y] = piece;
+		piece.Move(BoardSpaceToObjectSpace(targetPos));
 	}
 	public Vector2Int ObjectSpaceToBoardSpace(Vector3 o_pos)
 	{
@@ -28,8 +49,9 @@ public class Board : MonoBehaviour
 		Vector3 v = new Vector3(vi.x * 0.1f, 0, vi.y * 0.1f);
 		return v + transform.position;
 	}
-	public PieceBase GetPieceOnTargetPosition(Vector2Int pos)
+	public IPiece GetPieceOnRayPosition(Vector3 pos)
 	{
-		return piecesOnBoard[pos.x, pos.y];
+		Vector2Int p = ObjectSpaceToBoardSpace(pos);
+		return pieces[p.x, p.y];
 	}
 }
