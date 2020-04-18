@@ -289,6 +289,7 @@ GameObject:
   - component: {fileID: 91053078}
   - component: {fileID: 91053079}
   - component: {fileID: 91053080}
+  - component: {fileID: 91053081}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -365,6 +366,20 @@ MonoBehaviour:
   - {fileID: 4091487260940719297, guid: d0884a1ca65ec3344805fb5bb3cc6687, type: 3}
   WhitePiece: {fileID: 2100000, guid: f89b4267623b2704eace9f9d9b79e37c, type: 2}
   BlackPiece: {fileID: 2100000, guid: 42ae20dde95a1e441bbdfbe5bda92700, type: 2}
+--- !u!114 &91053081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91053077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 525bc580af63ec2458293cdce72b2759, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsWhitePlayer: 0
+  boards: {fileID: 91053080}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -918,6 +933,7 @@ MonoBehaviour:
     type: 3}
   phase: 0
   IsWhitePlayer: 0
+  checker: {fileID: 91053081}
 --- !u!4 &628189242
 Transform:
   m_ObjectHideFlags: 0
@@ -939,7 +955,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628189240}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 636196d946d46ac428aa9ff8f64a28c4, type: 3}
   m_Name: 
@@ -948,6 +964,7 @@ MonoBehaviour:
     type: 3}
   phase: 0
   IsWhitePlayer: 1
+  checker: {fileID: 91053081}
 --- !u!1 &691134847
 GameObject:
   m_ObjectHideFlags: 0

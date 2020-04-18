@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 	public PlayerPhase phase;
 	public IPiece TargetPiece;
 	public bool IsWhitePlayer = false;
+	public OathChecker checker;
 	List<GameObject> MovableFieldCache = new List<GameObject>();
 	List<Vector2Int> MovablePos = new List<Vector2Int>();
 	BoardAndPos BoardAndPosCache;
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
 	}
 	void Oath()
 	{
+		checker.CheckAllBoard();
 		NextPhase();
 	}
 	void PieceSelect()

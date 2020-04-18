@@ -5,12 +5,7 @@ public class Board : MonoBehaviour
 {
 	public int size;
 	public IPiece[,] pieces;
-	public Board(int _size)
-	{
-		size = _size;
-		pieces = new IPiece[size, size];
-	}
-	void Start()
+	void Awake()
 	{
 		pieces = new IPiece[size, size];
 	}
