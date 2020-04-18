@@ -4,4 +4,5 @@ public enum PlayerPhase
 	PieceSelect,
 	PieceSelected,
 	SecondOath,
+	OpponentTurn,
 }

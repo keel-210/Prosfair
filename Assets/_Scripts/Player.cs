@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 	public GameObject MovableFieldReference;
 	public PlayerPhase phase;
 	public IPiece TargetPiece;
+	public bool IsWhitePlayer = false;
 	List<GameObject> MovableFieldCache = new List<GameObject>();
 	List<Vector2Int> MovablePos = new List<Vector2Int>();
 	BoardAndPos BoardAndPosCache;
@@ -17,11 +18,12 @@ public class Player : MonoBehaviour
 			case PlayerPhase.PieceSelect: PieceSelect(); break;
 			case PlayerPhase.PieceSelected: PieceMove(); break;
 			case PlayerPhase.SecondOath: Oath(); break;
+			default: break;
 		}
 	}
 	void Oath()
 	{
-		phase = PlayerPhase.PieceSelect;
+		NextPhase();
 	}
 	void PieceSelect()
 	{
@@ -38,23 +40,18 @@ public class Player : MonoBehaviour
 		BoardAndPos rayPos = RayCastScreen();
 		if (rayPos.pos != Vector3.zero)
 		{
-			if (BoardAndPosCache.board != rayPos.board)
-			{
-				CancelPiece();
-				return;
-			}
 			Vector2Int boardPos = rayPos.board.ObjectSpaceToBoardSpace(rayPos.pos);
-			if (!MovablePos.Contains(boardPos))
-			{
+			if (BoardAndPosCache.board != rayPos.board || !MovablePos.Contains(boardPos))
 				CancelPiece();
-				return;
+			else
+			{
+				rayPos.board.MovePiece(TargetPiece, BoardAndPosCache.PosOnBoard, boardPos);
+				MovablePos.Clear();
+				BoardAndPosCache = null;
+				MovableFieldCache.ForEach(x => Destroy(x));
+				MovableFieldCache.Clear();
+				NextPhase();
 			}
-			rayPos.board.MovePiece(TargetPiece, BoardAndPosCache.PosOnBoard, boardPos);
-			MovablePos.Clear();
-			BoardAndPosCache = null;
-			MovableFieldCache.ForEach(x => Destroy(x));
-			MovableFieldCache.Clear();
-			phase = PlayerPhase.SecondOath;
 		}
 		else
 			CancelPiece();
@@ -70,7 +67,7 @@ public class Player : MonoBehaviour
 	void DisplayMovablePosition(BoardAndPos bp)
 	{
 		IPiece p = bp.board.GetPieceOnRayPosition(bp.pos);
-		if (p == null)
+		if (p == null || p.IsWhitePlayer != IsWhitePlayer)
 			return;
 		TargetPiece = p;
 		var movablePosition = p.CheckMovement();
@@ -83,7 +80,14 @@ public class Player : MonoBehaviour
 			MovableFieldCache.Add(Instantiate(MovableFieldReference, bp.board.BoardSpaceToObjectSpace(v), Quaternion.identity));
 		BoardAndPosCache = bp;
 		MovablePos = movablePosition;
-		phase = PlayerPhase.PieceSelected;
+		NextPhase();
+	}
+	void NextPhase()
+	{
+		if (phase == PlayerPhase.OpponentTurn)
+			phase = PlayerPhase.FirstOath;
+		else
+			phase += 1;
 	}
 	BoardAndPos RayCastScreen()
 	{
@@ -99,7 +103,6 @@ public class Player : MonoBehaviour
 			bp.PosOnBoard = bp.board.ObjectSpaceToBoardSpace(hit.point);
 			bp.pos = hit.point;
 		}
-
 		return bp;
 	}
 	public class BoardAndPos
