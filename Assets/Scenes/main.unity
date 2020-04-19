@@ -375,7 +375,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 91053077}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 525bc580af63ec2458293cdce72b2759, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a7293e4d65437f4dbca48955109a5af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsWhitePlayer: 0
@@ -910,6 +910,7 @@ GameObject:
   - component: {fileID: 628189242}
   - component: {fileID: 628189241}
   - component: {fileID: 628189243}
+  - component: {fileID: 628189244}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -924,7 +925,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628189240}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 636196d946d46ac428aa9ff8f64a28c4, type: 3}
   m_Name: 
@@ -955,7 +956,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628189240}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 636196d946d46ac428aa9ff8f64a28c4, type: 3}
   m_Name: 
@@ -965,6 +966,20 @@ MonoBehaviour:
   phase: 0
   IsWhitePlayer: 1
   checker: {fileID: 91053081}
+--- !u!114 &628189244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 628189240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77e0b0569d1a8b343a643843229ab439, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WhitePlayer: {fileID: 628189243}
+  BlackPlayer: {fileID: 628189241}
 --- !u!1 &691134847
 GameObject:
   m_ObjectHideFlags: 0

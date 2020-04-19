@@ -11,6 +11,7 @@ public abstract class PieceBase : MonoBehaviour, IPiece
 	public abstract List<Vector2Int> CheckMovement();
 	void Start()
 	{
+		Stage = PieceUtils.PieceInitialStage(pieceType);
 		Initialize();
 	}
 	protected abstract void Initialize();

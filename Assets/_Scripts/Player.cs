@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
 		MovablePos = movablePosition;
 		NextPhase();
 	}
-	void NextPhase()
+	public void NextPhase()
 	{
 		if (phase == PlayerPhase.OpponentTurn)
 			phase = PlayerPhase.FirstOath;
