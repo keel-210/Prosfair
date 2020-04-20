@@ -16,6 +16,7 @@ public class OathChecker : MonoBehaviour
 		RelativeCoordinates.Add(OathUtils.RelativeCoordinates5);
 		RelativeCoordinates.Add(OathUtils.RelativeCoordinates6);
 		RelativeCoordinates.Add(OathUtils.RelativeCoordinates7);
+
 	}
 	public void CheckAllBoard()
 	{
@@ -41,5 +42,4 @@ public class OathChecker : MonoBehaviour
 	{
 		return new EnhanceOath(board, pieces, IsWhitePlayer);
 	}
-
 }

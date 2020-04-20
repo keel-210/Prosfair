@@ -8,6 +8,8 @@ public static class OathUtils
 	public static List<Vector2Int> RelativeCoordinates5 = new List<Vector2Int> { new Vector2Int(0, 0), new Vector2Int(1, 1), new Vector2Int(1, -1), new Vector2Int(-1, 1), new Vector2Int(-1, -1) };
 	public static List<Vector2Int> RelativeCoordinates6 = new List<Vector2Int> { new Vector2Int(0, 0), new Vector2Int(0, -1), new Vector2Int(1, 0), new Vector2Int(1, -1), new Vector2Int(-1, 0), new Vector2Int(-1, -1) };
 	public static List<Vector2Int> RelativeCoordinates7 = new List<Vector2Int> { new Vector2Int(0, 0), new Vector2Int(0, 1), new Vector2Int(0, -1), new Vector2Int(1, 1), new Vector2Int(1, -1), new Vector2Int(-1, 1), new Vector2Int(-1, -1) };
+
+
 	public static bool IsInitialPlacementException(List<IPiece> pieces)
 	{
 		var types = pieces.Select(x => x.pieceType);
