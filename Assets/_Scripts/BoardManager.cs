@@ -13,12 +13,9 @@ public class BoardManager : MonoBehaviour
 		SetInitPiece(true);
 		SetInitPiece(false);
 	}
-	void StartGame()
-	{
-
-	}
 	void SetInitPiece(bool IsWhite)
 	{
+		mainBoard.InitializeBoard();
 		int PosY = 0, Dir = 0;
 		if (IsWhite)
 		{ PosY = 2; Dir = -1; }

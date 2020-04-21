@@ -18,6 +18,7 @@ public abstract class PieceBase : MonoBehaviour, IPiece
 	public void Move(Vector3 pos)
 	{
 		transform.position = pos;
+		PositionOnBoard = board.ObjectSpaceToBoardSpace(pos);
 	}
 	public void KillSelf()
 	{
@@ -25,7 +26,7 @@ public abstract class PieceBase : MonoBehaviour, IPiece
 	}
 	public void BoardUpdate()
 	{
-		//Oathによる駒変形等の記述
+		//Oathによる駒段階変形等の記述
 	}
 	protected void Check(List<Vector2Int> temp, Vector2Int target)
 	{

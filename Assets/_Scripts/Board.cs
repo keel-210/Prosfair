@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 public class Board : MonoBehaviour
 {
-	public int size;
+	public int size, height;
 	public IPiece[,] pieces;
-	void Awake()
+	public void InitializeBoard()
 	{
 		pieces = new IPiece[size, size];
 	}

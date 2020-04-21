@@ -5,6 +5,8 @@ public abstract class Oath : IOath
 	protected Board board { get; set; }
 	protected List<IPiece> pieces { get; set; }
 	protected bool IsWhitePlayer { get; set; }
+	protected BoardAttribute attribute;
+	protected BoardTime boardTime;
 	public Oath(Board b, List<IPiece> l, bool IsWhite)
 	{
 		board = b;

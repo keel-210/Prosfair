@@ -16,79 +16,39 @@ public class BeldidectChecker : MonoBehaviour
 	List<IPiece> GolcleoCheck(IPiece target, Board board)
 	{
 		List<IPiece> t = new List<IPiece>();
-		RowCheck(target, new Vector2Int(0, 1), board, t);
-		RowCheck(target, new Vector2Int(1, 0), board, t);
-		RowCheck(target, new Vector2Int(0, -1), board, t);
-		RowCheck(target, new Vector2Int(-1, 0), board, t);
-		RowCheck(target, new Vector2Int(1, 1), board, t);
-		RowCheck(target, new Vector2Int(1, -1), board, t);
-		RowCheck(target, new Vector2Int(-1, 1), board, t);
-		RowCheck(target, new Vector2Int(-1, -1), board, t);
+
 		return t;
 	}
 	List<IPiece> CainCheck(IPiece target, Board board)
 	{
 		List<IPiece> t = new List<IPiece>();
-		RowCheck(target, new Vector2Int(1, 1), board, t);
-		RowCheck(target, new Vector2Int(1, -1), board, t);
-		RowCheck(target, new Vector2Int(-1, 1), board, t);
-		RowCheck(target, new Vector2Int(-1, -1), board, t);
+
 		return t;
 	}
 	List<IPiece> WoofeinCheck(IPiece target, Board board)
 	{
 		List<IPiece> t = new List<IPiece>();
-		RowCheck(target, new Vector2Int(0, 1), board, t);
-		RowCheck(target, new Vector2Int(1, 0), board, t);
-		RowCheck(target, new Vector2Int(0, -1), board, t);
-		RowCheck(target, new Vector2Int(-1, 0), board, t);
+
 		return t;
 	}
 	List<IPiece> OzoaCheck(IPiece target, Board board)
 	{
 		List<IPiece> t = new List<IPiece>();
-		Check(target, new Vector2Int(1, 2), board, t);
-		Check(target, new Vector2Int(-1, 2), board, t);
-		Check(target, new Vector2Int(2, 1), board, t);
-		Check(target, new Vector2Int(-2, 1), board, t);
-		Check(target, new Vector2Int(1, -2), board, t);
-		Check(target, new Vector2Int(-1, -2), board, t);
-		Check(target, new Vector2Int(2, 1), board, t);
-		Check(target, new Vector2Int(-2, 1), board, t);
 		return t;
 	}
 	List<IPiece> RemagoguuCheck(IPiece target, Board board)
 	{
 		List<IPiece> t = new List<IPiece>();
-		Check(target, new Vector2Int(0, 1), board, t);
-		Check(target, new Vector2Int(1, 1), board, t);
-		Check(target, new Vector2Int(-1, 1), board, t);
-		Check(target, new Vector2Int(1, -1), board, t);
-		Check(target, new Vector2Int(-1, -1), board, t);
 		return t;
 	}
 	List<IPiece> MechetCheck(IPiece target, Board board)
 	{
 		List<IPiece> t = new List<IPiece>();
-		Check(target, new Vector2Int(0, 1), board, t);
-		Check(target, new Vector2Int(0, -1), board, t);
-		Check(target, new Vector2Int(1, 1), board, t);
-		Check(target, new Vector2Int(-1, 1), board, t);
-		Check(target, new Vector2Int(1, 0), board, t);
-		Check(target, new Vector2Int(-1, 0), board, t);
 		return t;
 	}
 	List<IPiece> BolussaCheck(IPiece target, Board board)
 	{
 		List<IPiece> t = new List<IPiece>();
-		Check(target, new Vector2Int(0, 1), board, t);
-		Check(target, new Vector2Int(0, -1), board, t);
-		Check(target, new Vector2Int(1, 0), board, t);
-		Check(target, new Vector2Int(-1, 0), board, t);
-		Check(target, new Vector2Int(1, 1), board, t);
-		Check(target, new Vector2Int(1, -1), board, t);
-		Check(target, new Vector2Int(-1, 1), board, t);
-		Check(target, new Vector2Int(-1, -1), board, t);
 		return t;
 	}
 	void Check(IPiece checkTarget, Vector2Int TragetPos, Board board, List<IPiece> t)
