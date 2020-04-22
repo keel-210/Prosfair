@@ -26,20 +26,21 @@ public class Shamain : PieceBase
 
 		if (BoardSanityCheck(Forward) || BoardSanityCheck(RightForward) || BoardSanityCheck(LeftForward))
 			return;
+
 		IPiece f = board.pieces[Forward.x, Forward.y], r = board.pieces[RightForward.x, RightForward.y], l = board.pieces[LeftForward.x, LeftForward.y];
 		if (f == null)
 		{
-			temp.Add(Forward + PositionOnBoard);
-			if (!IsFirstMoved)
-			{
-				temp.Add(Forward + Forward + PositionOnBoard);
-				IsFirstMoved = true;
-			}
+			temp.Add(Forward);
+			// if (!IsFirstMoved)
+			// {
+			// 	temp.Add(Forward + Forward + PositionOnBoard);
+			// 	IsFirstMoved = true;
+			// }
 		}
 		if (r != null && r.Stage <= Stage && (IsWhitePlayer ^ r.IsWhitePlayer))
-			temp.Add(RightForward + PositionOnBoard);
+			temp.Add(RightForward);
 		if (l != null && l.Stage <= Stage && (IsWhitePlayer ^ l.IsWhitePlayer))
-			temp.Add(LeftForward + PositionOnBoard);
+			temp.Add(LeftForward);
 	}
 	bool BoardSanityCheck(Vector2Int v)
 	{

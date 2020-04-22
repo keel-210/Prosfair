@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 public class Board : MonoBehaviour
 {
+	public string name { get; set; }
 	public int size, height;
 	public IPiece[,] pieces;
-	public void InitializeBoard()
+	public GameRecorder recorder;
+	public void InitializeBoard(GameRecorder _recorder, string _name)
 	{
-		pieces = new IPiece[size, size];
+		if (pieces == null)
+			pieces = new IPiece[size, size];
+		recorder = _recorder;
 	}
 	public void UpdateBoardStatus()
 	{
@@ -30,6 +34,7 @@ public class Board : MonoBehaviour
 		piece.PositionOnBoard = targetPos;
 		pieces[targetPos.x, targetPos.y] = piece;
 		piece.Move(BoardSpaceToObjectSpace(targetPos));
+		recorder.PieceMoveRecord(piece, this, piece.PositionOnBoard);
 	}
 	public Vector2Int ObjectSpaceToBoardSpace(Vector3 o_pos)
 	{

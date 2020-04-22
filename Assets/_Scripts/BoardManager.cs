@@ -7,7 +7,8 @@ public class BoardManager : MonoBehaviour
 	public Board mainBoard;
 	public List<Board> subBoards;
 	public List<GameObject> pieceReference;
-	public Material WhitePiece, BlackPiece;
+	[SerializeField] Material WhitePiece, BlackPiece;
+	[SerializeField] GameRecorder recorder;
 	void Start()
 	{
 		SetInitPiece(true);
@@ -15,7 +16,7 @@ public class BoardManager : MonoBehaviour
 	}
 	void SetInitPiece(bool IsWhite)
 	{
-		mainBoard.InitializeBoard();
+		mainBoard.InitializeBoard(recorder, "M");
 		int PosY = 0, Dir = 0;
 		if (IsWhite)
 		{ PosY = 2; Dir = -1; }
@@ -53,8 +54,8 @@ public class BoardManager : MonoBehaviour
 		obj.GetComponent<PieceBase>().IsWhitePlayer = IsWhite;
 		board.AddPiece(p, pos);
 	}
-	public void AddSubBoard(int size)
+	public void AddSubBoard(Board b)
 	{
-
+		subBoards.Add(b);
 	}
 }

@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class PlayerSwitcher : MonoBehaviour
+public class GamePhaseManager : MonoBehaviour
 {
 	public Player WhitePlayer, BlackPlayer;
-	bool IsWhitePlaying;
+	public bool IsWhitePlaying;
 	void Start()
 	{
 		IsWhitePlaying = true;

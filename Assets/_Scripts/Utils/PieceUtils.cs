@@ -27,6 +27,32 @@ public static class PieceUtils
 		}
 		return 0;
 	}
+	public static string PieceSimpleNotation(PieceType type)
+	{
+		switch (type)
+		{
+			case PieceType.Gore: return "G";
+			case PieceType.Laage: return "L";
+			case PieceType.Shamain: return "S";
+			case PieceType.Gisharl: return "I";
+			case PieceType.Woofein: return "W";
+			case PieceType.Cain: return "C";
+			case PieceType.Ozoa: return "O";
+			case PieceType.Golcleo: return "Q";
+			case PieceType.Remagoguu: return "R";
+			case PieceType.Bolussa: return "B";
+			case PieceType.Mechet: return "M";
+			case PieceType.Backtorce: return "SB";
+			case PieceType.Maanagis: return "SM";
+			case PieceType.Inquisice: return "SI";
+			case PieceType.Chelstaminus: return "SC";
+			case PieceType.Penalcantos: return "SP";
+			case PieceType.Recstarionis: return "SR";
+			default: break;
+		}
+		return "0";
+	}
+
 	public static bool IsDefeatByTargetPiece()
 	{
 		return true;

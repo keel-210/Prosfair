@@ -6,50 +6,47 @@ public class BeldidectChecker : MonoBehaviour
 {
 	bool IsWhitePlayer;
 	public List<IBeldidect> Beldidects = new List<IBeldidect>();
-	// 堕天使
-	// 背教徒
-	// 戦塔
-	// 混沌
-	// 傀儡
-	// 淫后
-	// 暴君
-	List<IPiece> GolcleoCheck(IPiece target, Board board)
+	bool GolcleoCheck(IPiece target, Board board)
 	{
-		List<IPiece> t = new List<IPiece>();
-
-		return t;
+		// |堕天使陣形|混沌，逆賊，背教徒
+		return true;
 	}
-	List<IPiece> CainCheck(IPiece target, Board board)
+	bool CainCheck(IPiece target, Board board)
 	{
-		List<IPiece> t = new List<IPiece>();
-
-		return t;
+		// |背教徒陣形|堕天使，淫后，逆賊
+		return true;
 	}
-	List<IPiece> WoofeinCheck(IPiece target, Board board)
+	bool WoofeinCheck(IPiece target, Board board)
 	{
-		List<IPiece> t = new List<IPiece>();
-
-		return t;
+		// |戦塔陣形|暴君，淫后，傀儡
+		return true;
 	}
-	List<IPiece> OzoaCheck(IPiece target, Board board)
+	bool OzoaCheck(IPiece target, Board board)
 	{
-		List<IPiece> t = new List<IPiece>();
-		return t;
+		// |混沌陣形|衝車，背教徒，逆賊
+		return true;
 	}
-	List<IPiece> RemagoguuCheck(IPiece target, Board board)
+	bool RemagoguuCheck(IPiece target, Board board)
 	{
-		List<IPiece> t = new List<IPiece>();
-		return t;
+		// |傀儡陣形|堕天使，戦塔，背教徒
+		return true;
 	}
-	List<IPiece> MechetCheck(IPiece target, Board board)
+	bool MechetCheck(IPiece target, Board board)
 	{
-		List<IPiece> t = new List<IPiece>();
-		return t;
+		// |淫后陣形|暴君，傀儡，逆賊
+		return true;
 	}
-	List<IPiece> BolussaCheck(IPiece target, Board board)
+	bool BolussaCheck(IPiece target, Board board)
 	{
-		List<IPiece> t = new List<IPiece>();
-		return t;
+		// |暴君陣形|淫后，傀儡，兵鬼×3 まず兵鬼*3を探す
+		if (target.pieceType != PieceType.Gore)
+			return false;
+		Vector2Int g0p = target.PositionOnBoard + new Vector2Int(1, 0), g1p = target.PositionOnBoard + new Vector2Int(2, 0);
+		IPiece g0 = board.pieces[g0p.x, g0p.y], g1 = board.pieces[g1p.x, g1p.y];
+		if (g0 == null || g1 == null || g0.pieceType != PieceType.Gore || g1.pieceType != PieceType.Gore)
+			return false;
+		//兵鬼*3が並んでないパターンは排除
+		return true;
 	}
 	void Check(IPiece checkTarget, Vector2Int TragetPos, Board board, List<IPiece> t)
 	{

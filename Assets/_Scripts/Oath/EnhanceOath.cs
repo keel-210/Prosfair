@@ -2,11 +2,15 @@ using System.Linq;
 using System.Collections.Generic;
 public class EnhanceOath : Oath
 {
-	public EnhanceOath(Board b, List<IPiece> l, bool IsWhite) : base(b, l, IsWhite) { }
+	public EnhanceOath(BoardManager _manager, Board b, List<IPiece> l, bool IsWhite) : base(_manager, b, l, IsWhite) { }
 	public override void OathEffect()
 	{
 		IPiece p = pieces.OrderBy(x => x.PositionOnBoard.y).First();
 		if (pieces.Count >= p.Stage)
 			p.Stage++;
+	}
+	int EnhanceLevel(int pieceCount, IPiece p)
+	{
+		return 0;
 	}
 }

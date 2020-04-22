@@ -11,14 +11,15 @@ public abstract class PieceBase : MonoBehaviour, IPiece
 	public abstract List<Vector2Int> CheckMovement();
 	void Start()
 	{
-		Stage = PieceUtils.PieceInitialStage(pieceType);
 		Initialize();
+		Stage = PieceUtils.PieceInitialStage(pieceType);
 	}
 	protected abstract void Initialize();
 	public void Move(Vector3 pos)
 	{
 		transform.position = pos;
 		PositionOnBoard = board.ObjectSpaceToBoardSpace(pos);
+		// Debug.Log(PositionOnBoard);
 	}
 	public void KillSelf()
 	{
