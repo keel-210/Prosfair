@@ -16,7 +16,7 @@ public class BoardManager : MonoBehaviour
 	}
 	void SetInitPiece(bool IsWhite)
 	{
-		mainBoard.InitializeBoard(recorder, "M");
+		mainBoard.InitializeBoard(recorder, "M", BoardAttribute.Ignoria, BoardTime.Claint);
 		int PosY = 0, Dir = 0;
 		if (IsWhite)
 		{ PosY = 2; Dir = -1; }
@@ -54,8 +54,9 @@ public class BoardManager : MonoBehaviour
 		obj.GetComponent<PieceBase>().IsWhitePlayer = IsWhite;
 		board.AddPiece(p, pos);
 	}
-	public void AddSubBoard(Board b)
+	public void AddSubBoard(Board b, BoardAttribute attribute, BoardTime boardTime)
 	{
+		b.InitializeBoard(recorder, "F" + subBoards.Count.ToString(), attribute, boardTime);
 		subBoards.Add(b);
 	}
 }

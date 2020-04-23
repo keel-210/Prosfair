@@ -56,4 +56,29 @@ public static class OathUtils
 		}
 		return p;
 	}
+	public static List<PieceType> TargetPieceTypebyBoardTime(BoardTime time)
+	{
+		List<PieceType> types = new List<PieceType>();
+		switch (time)
+		{
+			case BoardTime.Pasusu:
+				types.Add(PieceType.Woofein);
+				types.Add(PieceType.Cain);
+				types.Add(PieceType.Golcleo);
+				types.Add(PieceType.Ozoa);
+				break;
+			case BoardTime.Claint:
+				types.Add(PieceType.Gore);
+				types.Add(PieceType.Gisharl);
+				types.Add(PieceType.Laage);
+				types.Add(PieceType.Shamain);
+				break;
+			case BoardTime.Ftuule:
+				types.Add(PieceType.Bolussa);
+				types.Add(PieceType.Mechet);
+				types.Add(PieceType.Remagoguu);
+				break;
+		}
+		return types;
+	}
 }

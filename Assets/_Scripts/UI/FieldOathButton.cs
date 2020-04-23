@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-public class OathButton : MonoBehaviour
+public class FieldOathButton : MonoBehaviour
 {
 	public IOath oath { get; set; }
 	[SerializeField] GameObject OathField;
@@ -12,16 +12,15 @@ public class OathButton : MonoBehaviour
 		buttons = transform.parent.GetComponent<OathButtons>();
 		button = GetComponent<Button>();
 		button.onClick.AddListener(OnClick);
-		DisplayOathRegion();
 	}
 	void DisplayOathRegion()
 	{
 		field = Instantiate(OathField);
 		Vector3 minPos = oath.board.BoardSpaceToObjectSpace(oath.minRegion);
-		Vector3 maxPos = oath.board.BoardSpaceToObjectSpace(oath.maxRegion);
+		Vector3 maxPos = oath.board.BoardSpaceToObjectSpace(oath.minRegion);
 		field.transform.position = (minPos + maxPos) / 2;
-		float XScale = Mathf.Abs(maxPos.x - minPos.x) + 0.1f, ZScale = Mathf.Abs(maxPos.z - minPos.z) + 0.1f;
-		field.transform.localScale = new Vector3(XScale, field.transform.localScale.y, ZScale);
+		float XScale = 0.05f * (maxPos.x - minPos.x), YScale = 0.05f * (maxPos.y - minPos.y);
+		transform.localScale = new Vector3(XScale, transform.localScale.y, YScale);
 	}
 	public void OnClick()
 	{

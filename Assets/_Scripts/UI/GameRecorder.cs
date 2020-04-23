@@ -18,10 +18,16 @@ public class GameRecorder : MonoBehaviour
 	public void PieceMoveRecord(IPiece piece, Board board, Vector2Int pos)
 	{
 		string isWhite = piece.IsWhitePlayer ? "White" : "Black";
-		WriteRecord("[" + isWhite + "]" + piece.pieceType + " " + pos + System.Environment.NewLine);
-		WriteSimpleRecord(piece.IsWhitePlayer ? "W" : "B" + PieceUtils.PieceSimpleNotation(piece.pieceType));
+		WriteRecord("[" + isWhite + "]" + board.name + " " + piece.pieceType + " " + pos + System.Environment.NewLine);
+		WriteSimpleRecord(piece.IsWhitePlayer ? "W" : "B" + board.name + " " + PieceUtils.PieceSimpleNotation(piece.pieceType) + pos + System.Environment.NewLine);
+		WriteFullRecord("[" + isWhite + "]" + board.name + " " + piece.pieceType + " " + pos + System.Environment.NewLine);
 	}
-	public void FieldOathRecord(IOath oath)
+	public void FieldOathRecord(IOath oath, Board b)
+	{
+
+		WriteFullRecord(oath.IsWhitePlayer.ToString() + "Oath " + b.name + b.attribute + b.boardTime + System.Environment.NewLine);
+	}
+	public void EnhanceOathRecord(IOath oath)
 	{
 
 	}

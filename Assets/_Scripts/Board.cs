@@ -7,11 +7,14 @@ public class Board : MonoBehaviour
 	public int size, height;
 	public IPiece[,] pieces;
 	public GameRecorder recorder;
-	public void InitializeBoard(GameRecorder _recorder, string _name)
+	public BoardAttribute attribute;
+	public BoardTime boardTime;
+	public void InitializeBoard(GameRecorder _recorder, string _name, BoardAttribute _attribute, BoardTime boardTime)
 	{
 		if (pieces == null)
 			pieces = new IPiece[size, size];
 		recorder = _recorder;
+		name = _name;
 	}
 	public void UpdateBoardStatus()
 	{
