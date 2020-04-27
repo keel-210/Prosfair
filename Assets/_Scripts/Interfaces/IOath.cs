@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Events;
 public interface IOath
 {
 	bool IsWhitePlayer { get; set; }
@@ -8,5 +9,7 @@ public interface IOath
 
 	Vector2Int minRegion { get; set; }
 	Vector2Int maxRegion { get; set; }
+	OnEffectCallback OnEffectActivated { get; set; }
 	void OathEffect();
 }
+public class OnEffectCallback : UnityEvent<IOath> { }

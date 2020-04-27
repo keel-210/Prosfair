@@ -32,9 +32,9 @@ public class OathChecker : MonoBehaviour
 			{
 				List<IPiece> pieces = OathUtils.PiecesPlacementCheck(r, p, board);
 				if (pieces.Count == r.Count && !OathUtils.IsInitialPlacementException(pieces))
-					if (pieces[0].IsWhitePlayer)
+					if (pieces[0].IsWhitePlayer && !DeplicationOathException(pieces))
 						manager.WhiteOaths.Add(OathTypeInstantiate(board, pieces, true));
-					else
+					else if (!DeplicationOathException(pieces))
 						manager.BlackOaths.Add(OathTypeInstantiate(board, pieces, false));
 			}
 		}

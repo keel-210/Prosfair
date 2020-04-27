@@ -8,6 +8,8 @@ public abstract class Oath : IOath
 	public Board board { get; set; }
 	public Vector2Int minRegion { get; set; }
 	public Vector2Int maxRegion { get; set; }
+	public OnEffectCallback OnEffectActivated { get; set; } = new OnEffectCallback();
+
 	protected int PhaseCompletePiecesNum { get; set; }
 	protected BoardAttribute attribute;
 	protected BoardTime boardTime;

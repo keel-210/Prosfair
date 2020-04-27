@@ -24,7 +24,7 @@ public class FieldOathButton : MonoBehaviour
 	}
 	public void OnClick()
 	{
-		buttons.manager.OathEffect(oath);
+		oath.OathEffect();
 		button.onClick.RemoveListener(OnClick);
 	}
 }

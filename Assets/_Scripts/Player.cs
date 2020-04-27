@@ -11,6 +11,11 @@ public class Player : MonoBehaviour
 	List<GameObject> MovableFieldCache = new List<GameObject>();
 	List<Vector2Int> MovablePos = new List<Vector2Int>();
 	BoardAndPos BoardAndPosCache;
+	void Start()
+	{
+		if (!IsWhitePlayer)
+			phase = PlayerPhase.OpponentTurn;
+	}
 	void Update()
 	{
 		switch (phase)
@@ -22,15 +27,16 @@ public class Player : MonoBehaviour
 			default: break;
 		}
 	}
+	public void OathSkip()
+	{
+		if (this.enabled && phase == PlayerPhase.FirstOath || phase == PlayerPhase.SecondOath)
+			NextPhase();
+	}
 	void FirstOath()
 	{
-		oathManager.CheckBoard();
-		NextPhase();
 	}
 	void SecondOath()
 	{
-		oathManager.CheckBoard();
-		NextPhase();
 	}
 	void PieceSelect()
 	{

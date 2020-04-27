@@ -35,11 +35,11 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 150, y: 30}
-  m_Pivot: {x: 0.5, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5994790766183383114
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -129,6 +129,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OathField: {fileID: 7608715950792654419, guid: 0d96c918bc8b78a42ae3b6ba1698906f,
     type: 3}
+  LineMaterial: {fileID: 2100000, guid: c12f21a8fce6b6f4db08bce4998f4399, type: 2}
+  field: {fileID: 0}
 --- !u!1 &5994790767347101880
 GameObject:
   m_ObjectHideFlags: 0

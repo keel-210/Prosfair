@@ -8,6 +8,7 @@ public class FieldOath : Oath
 
 	public override void OathEffect()
 	{
+		OnEffectActivated.Invoke(this);
 		Board b = new Board();
 		manager.AddSubBoard(b, attribute, boardTime);
 	}
