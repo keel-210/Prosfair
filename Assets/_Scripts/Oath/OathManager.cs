@@ -5,8 +5,8 @@ public class OathManager : MonoBehaviour
 	[SerializeField] OathChecker checker;
 	[SerializeField] GamePhaseManager phaseManager;
 	[SerializeField] OathButtons buttons;
-	public List<IOath> WhiteOaths = new List<IOath>(), BlackOaths = new List<IOath>();
-	public List<IOath> PrevWhiteOaths = new List<IOath>(), PrevBlackOaths = new List<IOath>();
+	public List<Oath> WhiteOaths = new List<Oath>(), BlackOaths = new List<Oath>();
+	public List<Oath> PrevWhiteOaths = new List<Oath>(), PrevBlackOaths = new List<Oath>();
 	public bool IsChecked;
 	void Update()
 	{
@@ -26,9 +26,9 @@ public class OathManager : MonoBehaviour
 		buttons.Clear();
 
 		checker.CheckAllBoard();
-		foreach (IOath o in WhiteOaths)
+		foreach (Oath o in WhiteOaths)
 			o.OnEffectActivated.AddListener(OathRemove);
-		foreach (IOath o in BlackOaths)
+		foreach (Oath o in BlackOaths)
 			o.OnEffectActivated.AddListener(OathRemove);
 
 		buttons.LoadOaths(phaseManager.IsWhitePlaying);
@@ -37,11 +37,11 @@ public class OathManager : MonoBehaviour
 	{
 		IsChecked = false;
 	}
-	public void OathEffect(IOath oath)
+	public void OathEffect(Oath oath, OathPrepare prepare)
 	{
-		oath.OathEffect();
+		oath.OathEffect(prepare);
 	}
-	void OathRemove(IOath oath)
+	void OathRemove(Oath oath)
 	{
 		(oath.IsWhitePlayer ? WhiteOaths : BlackOaths).Remove(oath);
 		(oath.IsWhitePlayer ? PrevWhiteOaths : PrevBlackOaths).Add(oath);

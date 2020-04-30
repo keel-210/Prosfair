@@ -9,10 +9,9 @@ public abstract class Oath : IOath
 	public Vector2Int minRegion { get; set; }
 	public Vector2Int maxRegion { get; set; }
 	public OnEffectCallback OnEffectActivated { get; set; } = new OnEffectCallback();
+	public OnPrevEffectPrepare OnEffectPrepare { get; set; } = new OnPrevEffectPrepare();
 
 	protected int PhaseCompletePiecesNum { get; set; }
-	protected BoardAttribute attribute;
-	protected BoardTime boardTime;
 	protected BoardManager manager { get; set; }
 	public Oath(BoardManager _manager, Board b, List<IPiece> l, bool IsWhite)
 	{
@@ -26,5 +25,10 @@ public abstract class Oath : IOath
 		minRegion = new Vector2Int(Xs.Min(), Ys.Min());
 		maxRegion = new Vector2Int(Xs.Max(), Ys.Max());
 	}
-	public abstract void OathEffect();
+	public virtual void OathEffect(OathPrepare prepare)
+	{
+		OnEffectPrepare.Invoke(prepare);
+	}
 }
+public class OnEffectCallback : UnityEngine.Events.UnityEvent<Oath> { }
+public class OnPrevEffectPrepare : UnityEngine.Events.UnityEvent<OathPrepare> { }

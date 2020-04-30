@@ -41,7 +41,7 @@ public class OathChecker : MonoBehaviour
 	}
 	bool DeplicationOathException(List<IPiece> l)
 	{
-		List<IOath> target;
+		List<Oath> target;
 		if (l[0].IsWhitePlayer)
 			target = manager.PrevWhiteOaths.Where(x => x.pieces.Count == l.Count).ToList();
 		else
@@ -58,7 +58,7 @@ public class OathChecker : MonoBehaviour
 		}
 		return false;
 	}
-	IOath OathTypeInstantiate(Board board, List<IPiece> pieces, bool IsWhite)
+	Oath OathTypeInstantiate(Board board, List<IPiece> pieces, bool IsWhite)
 	{
 		return new EnhanceOath(boards, board, pieces, IsWhite);
 	}

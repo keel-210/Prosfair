@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-public class OathButton : MonoBehaviour
+public class OathButtonBase : MonoBehaviour
 {
-	public IOath oath { get; set; }
+	public Oath oath { get; set; }
 	[SerializeField] GameObject OathField;
 	[SerializeField] Material LineMaterial;
 	OathButtons buttons;
@@ -44,8 +44,12 @@ public class OathButton : MonoBehaviour
 	public void OnClick()
 	{
 		Debug.Log("Oath");
-		oath.OathEffect();
+		oath.OathEffect(PrepareEffect());
 		button.onClick.RemoveListener(OnClick);
+	}
+	protected virtual OathPrepare PrepareEffect()
+	{
+		return new OathPrepare();
 	}
 	void OnDestroy()
 	{

@@ -11,11 +11,11 @@ public class OathButtons : MonoBehaviour
 	public void LoadOaths(bool IsWhitePlaying)
 	{
 		Clear();
-		List<IOath> oaths = IsWhitePlaying ? manager.WhiteOaths : manager.BlackOaths;
+		List<Oath> oaths = IsWhitePlaying ? manager.WhiteOaths : manager.BlackOaths;
 		Debug.Log("Oath Field" + oaths.Count);
 		if (oaths.Count == 0)
 			SkipButton.onClick.Invoke();
-		foreach (IOath o in oaths)
+		foreach (Oath o in oaths)
 		{
 			Buttons.Add(AddButton(o));
 		}
@@ -30,10 +30,10 @@ public class OathButtons : MonoBehaviour
 			Buttons[i].transform.position = new Vector3(ButtonsRect.position.x - r.rect.width * 0.5f, ButtonsRect.position.y + ButtonsRect.rect.height - r.rect.height * (i + 0.5f), 0);
 		}
 	}
-	GameObject AddButton(IOath o)
+	GameObject AddButton(Oath o)
 	{
 		GameObject obj = Instantiate(button, transform.position, Quaternion.identity, transform);
-		obj.GetComponent<OathButton>().oath = o;
+		obj.GetComponent<OathButtonBase>().oath = o;
 		return obj;
 	}
 	public void Clear()

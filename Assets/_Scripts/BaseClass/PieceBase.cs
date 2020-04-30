@@ -7,7 +7,8 @@ public abstract class PieceBase : MonoBehaviour, IPiece
 	public Vector2Int PositionOnBoard { get; set; }
 	public bool IsWhitePlayer { get; set; }
 	public int Stage { get; set; }
-	public int Experiment { get; set; }
+	public int Experience { get; set; }
+	public Vector3 PositionInWorld { get; set; }
 	public abstract List<Vector2Int> CheckMovement();
 	void Start()
 	{
@@ -18,6 +19,7 @@ public abstract class PieceBase : MonoBehaviour, IPiece
 	public void Move(Vector3 pos)
 	{
 		transform.position = pos;
+		PositionInWorld = pos;
 		PositionOnBoard = board.ObjectSpaceToBoardSpace(pos);
 		// Debug.Log(PositionOnBoard);
 	}

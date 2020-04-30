@@ -7,10 +7,11 @@ public interface IPiece
 	Board board { get; set; }
 	PieceType pieceType { get; }
 	Vector2Int PositionOnBoard { get; set; }
+	Vector3 PositionInWorld { get; set; }
 	bool IsWhitePlayer { get; set; }
 
 	int Stage { get; set; }
-	int Experiment { get; set; }
+	int Experience { get; set; }
 	void Move(Vector3 pos);
 	void KillSelf();
 	List<Vector2Int> CheckMovement();

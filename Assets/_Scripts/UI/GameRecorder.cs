@@ -22,14 +22,13 @@ public class GameRecorder : MonoBehaviour
 		WriteSimpleRecord(piece.IsWhitePlayer ? "W" : "B" + board.name + " " + PieceUtils.PieceSimpleNotation(piece.pieceType) + pos + System.Environment.NewLine);
 		WriteFullRecord("[" + isWhite + "]" + board.name + " " + piece.pieceType + " " + pos + System.Environment.NewLine);
 	}
-	public void FieldOathRecord(IOath oath, Board b)
+	public void FieldOathRecord(Oath oath, Board b)
 	{
-
 		WriteFullRecord(oath.IsWhitePlayer.ToString() + "Oath " + b.name + b.attribute + b.boardTime + System.Environment.NewLine);
 	}
-	public void EnhanceOathRecord(IOath oath)
+	public void EnhanceOathRecord(Oath oath, Board b)
 	{
-
+		WriteFullRecord(oath.IsWhitePlayer.ToString() + "Oath " + b.name + b.attribute + b.boardTime + System.Environment.NewLine);
 	}
 	void WriteRecord(string s)
 	{
