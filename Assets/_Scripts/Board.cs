@@ -39,6 +39,10 @@ public class Board : MonoBehaviour
 		piece.Move(BoardSpaceToObjectSpace(targetPos));
 		recorder.PieceMoveRecord(piece, this, piece.PositionOnBoard);
 	}
+	public void EnhancePieceType(PieceType enhanceType)
+	{
+
+	}
 	public Vector2Int ObjectSpaceToBoardSpace(Vector3 o_pos)
 	{
 		Vector3 v = (o_pos - transform.position + new Vector3(0.05f, 0, 0.05f)) / 0.1f;

@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-public class OathButtonBase : MonoBehaviour
+public abstract class OathButtonBase : MonoBehaviour
 {
 	public Oath oath { get; set; }
 	[SerializeField] GameObject OathField;
@@ -47,10 +47,7 @@ public class OathButtonBase : MonoBehaviour
 		oath.OathEffect(PrepareEffect());
 		button.onClick.RemoveListener(OnClick);
 	}
-	protected virtual OathPrepare PrepareEffect()
-	{
-		return new OathPrepare();
-	}
+	protected abstract OathPrepare PrepareEffect();
 	void OnDestroy()
 	{
 		Destroy(field);

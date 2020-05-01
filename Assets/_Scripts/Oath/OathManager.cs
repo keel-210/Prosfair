@@ -37,10 +37,6 @@ public class OathManager : MonoBehaviour
 	{
 		IsChecked = false;
 	}
-	public void OathEffect(Oath oath, OathPrepare prepare)
-	{
-		oath.OathEffect(prepare);
-	}
 	void OathRemove(Oath oath)
 	{
 		(oath.IsWhitePlayer ? WhiteOaths : BlackOaths).Remove(oath);
