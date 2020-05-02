@@ -14,7 +14,10 @@ public class Player : MonoBehaviour
 	void Start()
 	{
 		if (!IsWhitePlayer)
+		{
 			phase = PlayerPhase.OpponentTurn;
+			enabled = false;
+		}
 	}
 	void Update()
 	{

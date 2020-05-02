@@ -81,4 +81,34 @@ public static class OathUtils
 		}
 		return types;
 	}
+	public static List<PieceType> InversionTargetPieceTypebyBoardTime(BoardTime time)
+	{
+		List<PieceType> types = System.Enum.GetValues(typeof(PieceType)).Cast<PieceType>().ToList();
+		switch (time)
+		{
+			case BoardTime.Pasusu:
+				types = types.Where(x => x != PieceType.Woofein && x != PieceType.Cain && x != PieceType.Golcleo && x != PieceType.Ozoa).ToList();
+				break;
+			case BoardTime.Claint:
+				types = types.Where(x => x != PieceType.Gore && x != PieceType.Gisharl && x != PieceType.Laage && x != PieceType.Shamain).ToList();
+				break;
+			case BoardTime.Ftuule:
+				types = types.Where(x => x != PieceType.Bolussa && x != PieceType.Mechet && x != PieceType.Remagoguu).ToList();
+				break;
+		}
+		return types;
+	}
+	public static PieceAttribute PieceTypebyBoardAttribute(BoardAttribute attr)
+	{
+		switch (attr)
+		{
+			case BoardAttribute.Vettoria:
+				return PieceAttribute.Barlum;
+			case BoardAttribute.Ignoria:
+				return PieceAttribute.Decsusu;
+			case BoardAttribute.Donamia:
+				return PieceAttribute.Linnes;
+		}
+		return PieceAttribute.Barlum;
+	}
 }

@@ -6,9 +6,11 @@ public class EnhanceOath : Oath
 	public EnhanceOath(BoardManager _manager, Board b, List<IPiece> l, bool IsWhite) : base(_manager, b, l, IsWhite) { }
 	public override void OathEffect(OathPrepare prepare)
 	{
+		if (board.attribute == BoardAttribute.Donamia)
+			return;
 		OnEffectActivated.Invoke(this);
 		IPiece p = prepare.TargetPiece;
-		if (pieces.Count >= p.Stage)
+		if (pieces.Count > p.Stage)
 			p.Stage++;
 	}
 }

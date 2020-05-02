@@ -11,6 +11,7 @@ public class BoardManager : MonoBehaviour
 	[SerializeField] GameRecorder recorder;
 	void Start()
 	{
+		Debug.Log("Init Board");
 		SetInitPiece(true);
 		SetInitPiece(false);
 	}
@@ -58,5 +59,23 @@ public class BoardManager : MonoBehaviour
 	{
 		b.InitializeBoard(recorder, "F" + subBoards.Count.ToString(), attribute, boardTime);
 		subBoards.Add(b);
+	}
+	public void AllFieldEnhance(List<PieceType> types, int enhanceStage)
+	{
+		foreach (PieceType t in types)
+		{
+			mainBoard.EnhancePieceType(t, enhanceStage);
+			foreach (Board b in subBoards)
+				b.EnhancePieceType(t, enhanceStage);
+		}
+	}
+	public void AllPieceAttribute(List<PieceType> types, PieceAttribute attr)
+	{
+		foreach (PieceType t in types)
+		{
+			mainBoard.ChangePieceAttribute(t, attr);
+			foreach (Board b in subBoards)
+				b.ChangePieceAttribute(t, attr);
+		}
 	}
 }

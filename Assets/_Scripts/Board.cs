@@ -9,12 +9,14 @@ public class Board : MonoBehaviour
 	public GameRecorder recorder;
 	public BoardAttribute attribute;
 	public BoardTime boardTime;
-	public void InitializeBoard(GameRecorder _recorder, string _name, BoardAttribute _attribute, BoardTime boardTime)
+	public void InitializeBoard(GameRecorder _recorder, string _name, BoardAttribute _attribute, BoardTime _boardTime)
 	{
 		if (pieces == null)
 			pieces = new IPiece[size, size];
 		recorder = _recorder;
 		name = _name;
+		attribute = _attribute;
+		boardTime = _boardTime;
 	}
 	public void UpdateBoardStatus()
 	{
@@ -39,9 +41,19 @@ public class Board : MonoBehaviour
 		piece.Move(BoardSpaceToObjectSpace(targetPos));
 		recorder.PieceMoveRecord(piece, this, piece.PositionOnBoard);
 	}
-	public void EnhancePieceType(PieceType enhanceType)
+	public void EnhancePieceType(PieceType enhanceType, int enhanceStage)
 	{
-
+		if (attribute == BoardAttribute.Vettoria)
+			return;
+		foreach (IPiece p in pieces)
+			if (p != null && p.pieceType == enhanceType)
+				p.Stage += enhanceStage;
+	}
+	public void ChangePieceAttribute(PieceType enhanceType, PieceAttribute attr)
+	{
+		foreach (IPiece p in pieces)
+			if (p != null && p.pieceType == enhanceType)
+				p.pieceAttribute = attr;
 	}
 	public Vector2Int ObjectSpaceToBoardSpace(Vector3 o_pos)
 	{

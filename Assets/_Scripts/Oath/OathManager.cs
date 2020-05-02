@@ -1,13 +1,14 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 public class OathManager : MonoBehaviour
 {
-	[SerializeField] OathChecker checker;
-	[SerializeField] GamePhaseManager phaseManager;
-	[SerializeField] OathButtons buttons;
+	[SerializeField] public GamePhaseManager phaseManager;
 	public List<Oath> WhiteOaths = new List<Oath>(), BlackOaths = new List<Oath>();
 	public List<Oath> PrevWhiteOaths = new List<Oath>(), PrevBlackOaths = new List<Oath>();
-	public bool IsChecked;
+	[SerializeField] OathChecker checker;
+	[SerializeField] OathButtons buttons;
+	bool IsChecked;
 	void Update()
 	{
 		if (!IsChecked)
@@ -25,11 +26,10 @@ public class OathManager : MonoBehaviour
 		BlackOaths.Clear();
 		buttons.Clear();
 
-		checker.CheckAllBoard();
-		foreach (Oath o in WhiteOaths)
-			o.OnEffectActivated.AddListener(OathRemove);
-		foreach (Oath o in BlackOaths)
-			o.OnEffectActivated.AddListener(OathRemove);
+		WhiteOaths = checker.CheckOaths(true);
+		BlackOaths = checker.CheckOaths(false);
+		WhiteOaths.ForEach(x => x.OnEffectActivated.AddListener(OathRemove));
+		BlackOaths.ForEach(x => x.OnEffectActivated.AddListener(OathRemove));
 
 		buttons.LoadOaths(phaseManager.IsWhitePlaying);
 	}
@@ -39,6 +39,7 @@ public class OathManager : MonoBehaviour
 	}
 	void OathRemove(Oath oath)
 	{
+		Debug.Log(oath.IsWhitePlayer);
 		(oath.IsWhitePlayer ? WhiteOaths : BlackOaths).Remove(oath);
 		(oath.IsWhitePlayer ? PrevWhiteOaths : PrevBlackOaths).Add(oath);
 	}

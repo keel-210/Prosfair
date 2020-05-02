@@ -8,11 +8,16 @@ public class OathButtons : MonoBehaviour
 	public GameObject button, subButton;
 	public Button SkipButton;
 	List<GameObject> Buttons = new List<GameObject>();
+	void Start()
+	{
+		SkipButton.onClick.AddListener(manager.ResetCheckStatus);
+		SkipButton.onClick.AddListener(manager.phaseManager.WhitePlayer.OathSkip);
+		SkipButton.onClick.AddListener(manager.phaseManager.BlackPlayer.OathSkip);
+	}
 	public void LoadOaths(bool IsWhitePlaying)
 	{
 		Clear();
 		List<Oath> oaths = IsWhitePlaying ? manager.WhiteOaths : manager.BlackOaths;
-		Debug.Log("Oath Field" + oaths.Count);
 		if (oaths.Count == 0)
 			SkipButton.onClick.Invoke();
 		foreach (Oath o in oaths)

@@ -6,6 +6,7 @@ public interface IPiece
 {
 	Board board { get; set; }
 	PieceType pieceType { get; }
+	PieceAttribute pieceAttribute { get; set; }
 	Vector2Int PositionOnBoard { get; set; }
 	Vector3 PositionInWorld { get; set; }
 	bool IsWhitePlayer { get; set; }

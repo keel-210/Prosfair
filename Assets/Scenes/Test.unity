@@ -259,40 +259,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 256298383}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 734949787}
-        m_MethodName: ResetCheckStatus
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1364854299}
-        m_MethodName: OathSkip
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2076814942}
-        m_MethodName: OathSkip
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &256298383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -863,10 +830,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afbaeb70fd2030a438ebd26f4f10d952, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checker: {fileID: 734949788}
   phaseManager: {fileID: 1117728028}
+  checker: {fileID: 734949788}
   buttons: {fileID: 1600478336}
-  IsChecked: 0
 --- !u!114 &734949788
 MonoBehaviour:
   m_ObjectHideFlags: 0

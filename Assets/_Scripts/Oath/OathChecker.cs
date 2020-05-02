@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Linq;
 public class OathChecker : MonoBehaviour
 {
+	//managerと共依存なので改善する
 	[SerializeField] OathManager manager;
 	public BoardManager boards;
 	public List<List<Vector2Int>> RelativeCoordinates;
@@ -16,28 +17,30 @@ public class OathChecker : MonoBehaviour
 		RelativeCoordinates.Add(OathUtils.RelativeCoordinates7);
 
 	}
-	public void CheckAllBoard()
+	public List<Oath> CheckOaths(bool IsWhite)
 	{
-		CheckBoard(boards.mainBoard);
+		List<Oath> o = new List<Oath>();
+		o.AddRange(CheckBoard(boards.mainBoard, IsWhite));
 		foreach (Board b in boards.subBoards)
-			CheckBoard(b);
+			o.AddRange(CheckBoard(b, IsWhite));
+		return o;
 	}
-	public void CheckBoard(Board board)
+	List<Oath> CheckBoard(Board board, bool IsWhite)
 	{
+		List<Oath> o = new List<Oath>();
 		foreach (IPiece p in board.pieces)
 		{
-			if (p == null)
+			if (p == null || p.IsWhitePlayer != IsWhite)
 				continue;
 			foreach (List<Vector2Int> r in RelativeCoordinates)
 			{
 				List<IPiece> pieces = OathUtils.PiecesPlacementCheck(r, p, board);
 				if (pieces.Count == r.Count && !OathUtils.IsInitialPlacementException(pieces))
-					if (pieces[0].IsWhitePlayer && !DeplicationOathException(pieces))
-						manager.WhiteOaths.Add(OathTypeInstantiate(board, pieces, true));
-					else if (!DeplicationOathException(pieces))
-						manager.BlackOaths.Add(OathTypeInstantiate(board, pieces, false));
+					if (pieces[0].IsWhitePlayer == IsWhite && !DeplicationOathException(pieces))
+						o.Add(OathTypeInstantiate(board, pieces, IsWhite));
 			}
 		}
+		return o;
 	}
 	bool DeplicationOathException(List<IPiece> l)
 	{
@@ -48,11 +51,11 @@ public class OathChecker : MonoBehaviour
 			target = manager.PrevBlackOaths.Where(x => x.pieces.Count == l.Count).ToList();
 
 		bool DeplicateCheck = true;
-		for (int i = 0; i < target.Count; i++)
+		foreach (Oath t in target)
 		{
 			DeplicateCheck = true;
 			foreach (IPiece p in l)
-				DeplicateCheck = DeplicateCheck & target[i].pieces.Contains(p);
+				DeplicateCheck = DeplicateCheck & t.pieces.Contains(p);
 			if (DeplicateCheck)
 				return true;
 		}
@@ -60,6 +63,16 @@ public class OathChecker : MonoBehaviour
 	}
 	Oath OathTypeInstantiate(Board board, List<IPiece> pieces, bool IsWhite)
 	{
-		return new EnhanceOath(boards, board, pieces, IsWhite);
+		Oath o;
+		if (FieldOathCheck())
+			o = new FieldOath(boards, board, pieces, IsWhite);
+		else
+			o = new EnhanceOath(boards, board, pieces, IsWhite);
+		return o;
+	}
+	bool FieldOathCheck()
+	{
+		//位相の範囲内に相手駒が2つ以上ある->true
+		return false;
 	}
 }

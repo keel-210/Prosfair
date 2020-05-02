@@ -7,8 +7,6 @@ public class GamePhaseManager : MonoBehaviour
 	void Start()
 	{
 		IsWhitePlaying = true;
-		WhitePlayer.enabled = true;
-		BlackPlayer.enabled = false;
 	}
 	void Update()
 	{
