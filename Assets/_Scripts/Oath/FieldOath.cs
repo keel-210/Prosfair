@@ -6,6 +6,10 @@ public class FieldOath : Oath
 	public BoardAttribute boardAttribute { get; set; }
 	public BoardTime boardTime { get; set; }
 	public List<IPiece> AllPieces { get; set; }
+	public void Initialize(FieldCheck check)
+	{
+
+	}
 	public override void OathEffect(OathPrepare prepare)
 	{
 		OnEffectActivated.Invoke(this);

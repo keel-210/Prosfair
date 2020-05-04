@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-public class OathChecker : MonoBehaviour
+public static class OathChecker
 {
 	//managerと共依存なので改善する
-	[SerializeField] OathManager manager;
-	public BoardManager boards;
-	public List<List<Vector2Int>> RelativeCoordinates;
-	void Start()
+	//staticにできるところだけ分けて残りはmanagerに突っ込むべきでは？
+	public static List<List<Vector2Int>> RelativeCoordinates;
+	static OathChecker()
 	{
 		RelativeCoordinates = new List<List<Vector2Int>>();
 		RelativeCoordinates.Add(OathUtils.RelativeCoordinates3);
@@ -15,64 +14,72 @@ public class OathChecker : MonoBehaviour
 		RelativeCoordinates.Add(OathUtils.RelativeCoordinates5);
 		RelativeCoordinates.Add(OathUtils.RelativeCoordinates6);
 		RelativeCoordinates.Add(OathUtils.RelativeCoordinates7);
+	}
 
-	}
-	public List<Oath> CheckOaths(bool IsWhite)
-	{
-		List<Oath> o = new List<Oath>();
-		o.AddRange(CheckBoard(boards.mainBoard, IsWhite));
-		foreach (Board b in boards.subBoards)
-			o.AddRange(CheckBoard(b, IsWhite));
-		return o;
-	}
-	List<Oath> CheckBoard(Board board, bool IsWhite)
-	{
-		List<Oath> o = new List<Oath>();
-		foreach (IPiece p in board.pieces)
-		{
-			if (p == null || p.IsWhitePlayer != IsWhite)
-				continue;
-			foreach (List<Vector2Int> r in RelativeCoordinates)
-			{
-				List<IPiece> pieces = OathUtils.PiecesPlacementCheck(r, p, board);
-				if (pieces.Count == r.Count && !OathUtils.IsInitialPlacementException(pieces))
-					if (pieces[0].IsWhitePlayer == IsWhite && !DeplicationOathException(pieces))
-						o.Add(OathTypeInstantiate(board, pieces, IsWhite));
-			}
-		}
-		return o;
-	}
-	bool DeplicationOathException(List<IPiece> l)
-	{
-		List<Oath> target;
-		if (l[0].IsWhitePlayer)
-			target = manager.PrevWhiteOaths.Where(x => x.pieces.Count == l.Count).ToList();
-		else
-			target = manager.PrevBlackOaths.Where(x => x.pieces.Count == l.Count).ToList();
-
-		bool DeplicateCheck = true;
-		foreach (Oath t in target)
-		{
-			DeplicateCheck = true;
-			foreach (IPiece p in l)
-				DeplicateCheck = DeplicateCheck & t.pieces.Contains(p);
-			if (DeplicateCheck)
-				return true;
-		}
-		return false;
-	}
-	Oath OathTypeInstantiate(Board board, List<IPiece> pieces, bool IsWhite)
+	public static Oath OathTypeInstantiate(BoardManager boards, Board board, List<IPiece> pieces, bool IsWhite)
 	{
 		Oath o;
-		if (FieldOathCheck())
-			o = new FieldOath(boards, board, pieces, IsWhite);
+		var check = FieldOathCheck(board, pieces, IsWhite);
+		if (check != null)
+		{
+			var f = new FieldOath(boards, board, pieces, IsWhite);
+			f.Initialize(check);
+			o = f;
+		}
 		else
 			o = new EnhanceOath(boards, board, pieces, IsWhite);
 		return o;
 	}
-	bool FieldOathCheck()
+	public static FieldCheck FieldOathCheck(Board board, List<IPiece> pieces, bool IsWhite)
 	{
 		//位相の範囲内に相手駒が2つ以上ある->true
-		return false;
+		//完成位相を含む範囲が最も小さく最も多くの相手の駒を含む領域が最適
+		//5*5(3rd Oath~),7*7(7th Oath~),13*13(17th Oath~)の範囲を調査
+		int fieldSize = OathUtils.FieldSize(pieces.Count);
+		Vector2Int minPieces = Vector2IntUtils.RegionMin(pieces);
+		Vector2Int maxPieces = Vector2IntUtils.RegionMax(pieces);
+		List<List<Vector2Int>> checkPoses = Vector2IntUtils.PossibleRegionPos(fieldSize, board.size, minPieces, maxPieces);
+
+		FieldCheck f = RegionCheck(board, checkPoses, IsWhite, fieldSize);
+		if (f.AllPieces.Count == 0)
+			return null;
+		else
+			return f;
+	}
+	public static FieldCheck RegionCheck(Board board, List<List<Vector2Int>> checkPoses, bool IsWhite, int fieldSize)
+	{
+		FieldCheck check = new FieldCheck(new List<IPiece>(), 0);
+		foreach (List<Vector2Int> v in checkPoses)
+		{
+			List<IPiece> piecesInOathRegion = new List<IPiece>();
+			Vector2Int minRegion = v[0], maxRegion = v[1];
+			foreach (IPiece p in board.pieces)
+				if (p != null)
+					if (InRegionPiece(p, minRegion, maxRegion))
+						piecesInOathRegion.Add(p);
+			int OldopponentPieceCount = (IsWhite ? check.BlackPieceCount : check.WhitePieceCount);
+			int opponentPieceCount = piecesInOathRegion.Where(x => x.IsWhitePlayer == !IsWhite).Count();
+			if (opponentPieceCount > 1 && opponentPieceCount > OldopponentPieceCount)
+				check = new FieldCheck(piecesInOathRegion, fieldSize);
+		}
+		return check;
+	}
+	public static bool InRegionPiece(IPiece piece, Vector2Int _min, Vector2Int _max)
+	{
+		return _min.x <= piece.PositionOnBoard.x && _min.y <= piece.PositionOnBoard.y && piece.PositionOnBoard.x <= _max.x && piece.PositionOnBoard.y <= _max.y;
+	}
+}
+public class FieldCheck
+{
+	public List<IPiece> AllPieces { get; set; } = new List<IPiece>();
+	public int FieldSize { get; set; }
+	public int WhitePieceCount { get; private set; }
+	public int BlackPieceCount { get; private set; }
+	public FieldCheck(List<IPiece> p, int size)
+	{
+		AllPieces = p;
+		FieldSize = size;
+		WhitePieceCount = AllPieces.Where(x => x.IsWhitePlayer == true).Count();
+		BlackPieceCount = AllPieces.Count() - WhitePieceCount;
 	}
 }

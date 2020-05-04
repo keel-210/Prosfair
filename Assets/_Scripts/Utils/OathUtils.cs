@@ -111,4 +111,8 @@ public static class OathUtils
 		}
 		return PieceAttribute.Barlum;
 	}
+	public static int FieldSize(int OathPieceCount)
+	{
+		return OathPieceCount >= 17 ? 13 : (OathPieceCount >= 7 ? 7 : 5);
+	}
 }

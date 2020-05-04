@@ -6,14 +6,12 @@ public class Board : MonoBehaviour
 	public string name { get; set; }
 	public int size, height;
 	public IPiece[,] pieces;
-	public GameRecorder recorder;
 	public BoardAttribute attribute;
 	public BoardTime boardTime;
-	public void InitializeBoard(GameRecorder _recorder, string _name, BoardAttribute _attribute, BoardTime _boardTime)
+	public void InitializeBoard(string _name, BoardAttribute _attribute, BoardTime _boardTime)
 	{
 		if (pieces == null)
 			pieces = new IPiece[size, size];
-		recorder = _recorder;
 		name = _name;
 		attribute = _attribute;
 		boardTime = _boardTime;
@@ -39,7 +37,7 @@ public class Board : MonoBehaviour
 		piece.PositionOnBoard = targetPos;
 		pieces[targetPos.x, targetPos.y] = piece;
 		piece.Move(BoardSpaceToObjectSpace(targetPos));
-		recorder.PieceMoveRecord(piece, this, piece.PositionOnBoard);
+		GameRecorder.PieceMoveRecord(piece, this, piece.PositionOnBoard);
 	}
 	public void EnhancePieceType(PieceType enhanceType, int enhanceStage)
 	{

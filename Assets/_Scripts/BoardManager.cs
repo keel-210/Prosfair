@@ -6,18 +6,17 @@ public class BoardManager : MonoBehaviour
 {
 	public Board mainBoard;
 	public List<Board> subBoards;
-	public List<GameObject> pieceReference;
+	[SerializeField] BasicReferrence basic;
 	[SerializeField] Material WhitePiece, BlackPiece;
-	[SerializeField] GameRecorder recorder;
-	void Start()
+	protected virtual void Start()
 	{
 		Debug.Log("Init Board");
 		SetInitPiece(true);
 		SetInitPiece(false);
 	}
-	void SetInitPiece(bool IsWhite)
+	protected void SetInitPiece(bool IsWhite)
 	{
-		mainBoard.InitializeBoard(recorder, "M", BoardAttribute.Ignoria, BoardTime.Claint);
+		mainBoard.InitializeBoard("M", BoardAttribute.Ignoria, BoardTime.Claint);
 		int PosY = 0, Dir = 0;
 		if (IsWhite)
 		{ PosY = 2; Dir = -1; }
@@ -40,9 +39,9 @@ public class BoardManager : MonoBehaviour
 			for (int i = 0; i < 13; i++)
 				SetPiece(mainBoard, InitPiece[InitPiece.Length - 1 - i], new Vector2Int(i, PosY), IsWhite);
 	}
-	void SetPiece(Board board, PieceType type, Vector2Int pos, bool IsWhite)
+	protected void SetPiece(Board board, PieceType type, Vector2Int pos, bool IsWhite)
 	{
-		GameObject obj = Instantiate(pieceReference[(int)type]);
+		GameObject obj = Instantiate(basic.PieceReferrence[(int)type]);
 		var renderers = obj.GetComponentsInChildren<Renderer>();
 		if (IsWhite)
 			foreach (Renderer r in renderers)
@@ -57,7 +56,7 @@ public class BoardManager : MonoBehaviour
 	}
 	public void AddSubBoard(Board b, BoardAttribute attribute, BoardTime boardTime)
 	{
-		b.InitializeBoard(recorder, "F" + subBoards.Count.ToString(), attribute, boardTime);
+		b.InitializeBoard("F" + subBoards.Count.ToString(), attribute, boardTime);
 		subBoards.Add(b);
 	}
 	public void AllFieldEnhance(List<PieceType> types, int enhanceStage)
