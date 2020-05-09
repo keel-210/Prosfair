@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Basic Referrence
-  m_EditorClassIdentifier: Assembly-CSharp::BasicReferrence
+  m_Script: {fileID: 11500000, guid: 695193877566d3d479cc6afd6ab0527b, type: 3}
+  m_Name: Basic Reference
+  m_EditorClassIdentifier: 
   PieceReferrence:
   - {fileID: 7910521406241986800, guid: 63c261e55c0901c4fae290bc62b03faa, type: 3}
   - {fileID: 5082599509032977655, guid: 13cc4864bb68ad145a4509a0849a371e, type: 3}

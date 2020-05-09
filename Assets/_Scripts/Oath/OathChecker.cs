@@ -36,6 +36,9 @@ public static class OathChecker
 		//完成位相を含む範囲が最も小さく最も多くの相手の駒を含む領域が最適
 		//5*5(3rd Oath~),7*7(7th Oath~),13*13(17th Oath~)の範囲を調査
 		int fieldSize = OathUtils.FieldSize(pieces.Count);
+		if (fieldSize == 13)
+			return FullsizeField(board, fieldSize);
+
 		Vector2Int minPieces = Vector2IntUtils.RegionMin(pieces);
 		Vector2Int maxPieces = Vector2IntUtils.RegionMax(pieces);
 		List<List<Vector2Int>> checkPoses = Vector2IntUtils.PossibleRegionPos(fieldSize, board.size, minPieces, maxPieces);
@@ -48,7 +51,7 @@ public static class OathChecker
 	}
 	public static FieldCheck RegionCheck(Board board, List<List<Vector2Int>> checkPoses, bool IsWhite, int fieldSize)
 	{
-		FieldCheck check = new FieldCheck(new List<IPiece>(), 0);
+		FieldCheck check = new FieldCheck(new List<IPiece>(), 0, Vector2Int.zero);
 		foreach (List<Vector2Int> v in checkPoses)
 		{
 			List<IPiece> piecesInOathRegion = new List<IPiece>();
@@ -60,25 +63,35 @@ public static class OathChecker
 			int OldopponentPieceCount = (IsWhite ? check.BlackPieceCount : check.WhitePieceCount);
 			int opponentPieceCount = piecesInOathRegion.Where(x => x.IsWhitePlayer == !IsWhite).Count();
 			if (opponentPieceCount > 1 && opponentPieceCount > OldopponentPieceCount)
-				check = new FieldCheck(piecesInOathRegion, fieldSize);
+				check = new FieldCheck(piecesInOathRegion, fieldSize, minRegion);
 		}
 		return check;
 	}
-	public static bool InRegionPiece(IPiece piece, Vector2Int _min, Vector2Int _max)
+	static bool InRegionPiece(IPiece piece, Vector2Int _min, Vector2Int _max)
 	{
 		return _min.x <= piece.PositionOnBoard.x && _min.y <= piece.PositionOnBoard.y && piece.PositionOnBoard.x <= _max.x && piece.PositionOnBoard.y <= _max.y;
+	}
+	static FieldCheck FullsizeField(Board board, int fieldSize)
+	{
+		List<IPiece> AllPieces = new List<IPiece>();
+		foreach (IPiece p in board.pieces)
+			if (p != null)
+				AllPieces.Add(p);
+		return new FieldCheck(AllPieces, fieldSize, Vector2Int.zero);
 	}
 }
 public class FieldCheck
 {
 	public List<IPiece> AllPieces { get; set; } = new List<IPiece>();
 	public int FieldSize { get; set; }
+	public Vector2Int FieldPos { get; set; }
 	public int WhitePieceCount { get; private set; }
 	public int BlackPieceCount { get; private set; }
-	public FieldCheck(List<IPiece> p, int size)
+	public FieldCheck(List<IPiece> p, int size, Vector2Int fieldPos)
 	{
 		AllPieces = p;
 		FieldSize = size;
+		FieldPos = fieldPos;
 		WhitePieceCount = AllPieces.Where(x => x.IsWhitePlayer == true).Count();
 		BlackPieceCount = AllPieces.Count() - WhitePieceCount;
 	}

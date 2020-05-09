@@ -1,4 +1,5 @@
-﻿public enum PieceType
+﻿[System.Serializable]
+public enum PieceType
 {
 	/*
 	兵鬼

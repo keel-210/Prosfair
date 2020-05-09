@@ -1,36 +1,26 @@
+using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine.UI;
+
 public class FieldOath : Oath
 {
 	public FieldOath(BoardManager _manager, Board b, List<IPiece> l, bool IsWhite) : base(_manager, b, l, IsWhite) { }
 	public BoardAttribute boardAttribute { get; set; }
 	public BoardTime boardTime { get; set; }
-	public List<IPiece> AllPieces { get; set; }
-	public void Initialize(FieldCheck check)
+	FieldCheck check { get; set; }
+	public void Initialize(FieldCheck _check)
 	{
-
+		check = _check;
 	}
 	public override void OathEffect(OathPrepare prepare)
 	{
 		OnEffectActivated.Invoke(this);
 
 		Board b = new Board();
+		b.size = check.FieldSize;
 		manager.AddSubBoard(b, prepare.boardAttribute, prepare.boardTime);
-		EnhancePieces(prepare);
-		ChangePieceAttribute(prepare);
-	}
-	void EnhancePieces(OathPrepare prepare)
-	{
-		var targetPieces = OathUtils.TargetPieceTypebyBoardTime(prepare.boardTime);
-		manager.AllFieldEnhance(targetPieces, 1);
-		if (prepare.boardAttribute == BoardAttribute.Vettoria)
-			manager.AllFieldEnhance(OathUtils.InversionTargetPieceTypebyBoardTime(prepare.boardTime), -1);
-		if (prepare.boardAttribute == BoardAttribute.Ignoria)
-			manager.AllFieldEnhance(OathUtils.InversionTargetPieceTypebyBoardTime(prepare.boardTime), 1);
-	}
-	void ChangePieceAttribute(OathPrepare prepare)
-	{
-		var targetPieces = OathUtils.TargetPieceTypebyBoardTime(prepare.boardTime);
-		manager.AllPieceAttribute(targetPieces, OathUtils.PieceTypebyBoardAttribute(prepare.boardAttribute));
+		foreach (IPiece p in check.AllPieces)
+			b.AddPiece(p, p.PositionOnBoard - check.FieldPos);
 	}
 }

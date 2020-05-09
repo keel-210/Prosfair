@@ -6,11 +6,12 @@ public class BoardManager : MonoBehaviour
 {
 	public Board mainBoard;
 	public List<Board> subBoards;
-	[SerializeField] BasicReferrence basic;
+	[SerializeField] BasicReference basic;
 	[SerializeField] Material WhitePiece, BlackPiece;
 	protected virtual void Start()
 	{
 		Debug.Log("Init Board");
+		mainBoard.size = 13;
 		SetInitPiece(true);
 		SetInitPiece(false);
 	}

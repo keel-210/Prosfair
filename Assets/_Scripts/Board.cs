@@ -16,12 +16,6 @@ public class Board : MonoBehaviour
 		attribute = _attribute;
 		boardTime = _boardTime;
 	}
-	public void UpdateBoardStatus()
-	{
-		foreach (IPiece p in pieces)
-			if (p != null)
-				p.BoardUpdate();
-	}
 	public void AddPiece(IPiece piece, Vector2Int Pos)
 	{
 		piece.board = this;

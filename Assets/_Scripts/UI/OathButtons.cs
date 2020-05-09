@@ -28,11 +28,12 @@ public class OathButtons : MonoBehaviour
 	}
 	void SetButtonPos()
 	{
-		RectTransform ButtonsRect = GetComponent<RectTransform>();
+		Rect ButtonsRect = GetComponent<RectTransform>().rect;
 		for (int i = 0; i < Buttons.Count; i++)
 		{
-			RectTransform r = Buttons[i].GetComponent<RectTransform>();
-			Buttons[i].transform.position = new Vector3(ButtonsRect.position.x - r.rect.width * 0.5f, ButtonsRect.position.y + ButtonsRect.rect.height - r.rect.height * (i + 0.5f), 0);
+			Rect r = Buttons[i].GetComponent<RectTransform>().rect;
+			Vector3 p = new Vector3(-ButtonsRect.width + r.width * 0.5f, ButtonsRect.height - r.height * (i + 0.5f), 0);
+			Buttons[i].transform.localPosition = p;
 		}
 	}
 	GameObject AddButton(Oath o)

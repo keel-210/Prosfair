@@ -20,7 +20,7 @@ public abstract class OathButtonBase : MonoBehaviour
 	void Update()
 	{
 		Vector3 maxPos = oath.board.BoardSpaceToObjectSpace(oath.maxRegion) + new Vector3(0.05f, 0, 0.05f);
-		Vector3 ButtonRect = new Vector3(GetComponent<RectTransform>().rect.width / 2, 0, 0);
+		Vector3 ButtonRect = new Vector3(GetComponent<RectTransform>().rect.width * transform.lossyScale.x / 2, 0, 0);
 		Vector3 ButtonPos = Camera.main.ScreenToWorldPoint(transform.position - ButtonRect);
 		ButtonPos = new Vector3(ButtonPos.x, 0, ButtonPos.z);
 
