@@ -22,12 +22,13 @@ public static class OathChecker
 		var check = FieldOathCheck(board, pieces, IsWhite);
 		if (check != null)
 		{
-			var f = new FieldOath(boards, board, pieces, IsWhite);
+			Debug.Log((check != null).ToString() + " " + check.WhitePieceCount + " " + check.BlackPieceCount);
+			var f = new FieldOath(OathType.Field, boards, board, pieces, IsWhite);
 			f.Initialize(check);
 			o = f;
 		}
 		else
-			o = new EnhanceOath(boards, board, pieces, IsWhite);
+			o = new EnhanceOath(OathType.Enhance, boards, board, pieces, IsWhite);
 		return o;
 	}
 	public static FieldCheck FieldOathCheck(Board board, List<IPiece> pieces, bool IsWhite)

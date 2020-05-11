@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class FieldOath : Oath
 {
-	public FieldOath(BoardManager _manager, Board b, List<IPiece> l, bool IsWhite) : base(_manager, b, l, IsWhite) { }
+	public FieldOath(OathType _type, BoardManager _manager, Board b, List<IPiece> l, bool IsWhite) : base(_type, _manager, b, l, IsWhite) { }
 	public BoardAttribute boardAttribute { get; set; }
 	public BoardTime boardTime { get; set; }
 	FieldCheck check { get; set; }
@@ -13,14 +13,9 @@ public class FieldOath : Oath
 	{
 		check = _check;
 	}
-	public override void OathEffect(OathPrepare prepare)
+	public override void OathEffect(OathUIData UIData)
 	{
 		OnEffectActivated.Invoke(this);
-
-		Board b = new Board();
-		b.size = check.FieldSize;
-		manager.AddSubBoard(b, prepare.boardAttribute, prepare.boardTime);
-		foreach (IPiece p in check.AllPieces)
-			b.AddPiece(p, p.PositionOnBoard - check.FieldPos);
+		manager.AddSubBoard(UIData, check);
 	}
 }

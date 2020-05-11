@@ -204,6 +204,14 @@ MonoBehaviour:
   button: {fileID: 5994790766183383110, guid: 67a50e10b6537954c899a4c4d9abf926, type: 3}
   subButton: {fileID: 2765120050387552441, guid: 6f127a9e7395dce49bc3fae75db02da2,
     type: 3}
+  EnhanceButton: {fileID: 5994790766183383110, guid: 67a50e10b6537954c899a4c4d9abf926,
+    type: 3}
+  FieldButton: {fileID: 5994790766183383110, guid: 379910cc9cef6aa4587f13389871129a,
+    type: 3}
+  TypeEnhanceButton: {fileID: 5994790766183383110, guid: 76853164eda9f4c4190a2f9c65d4307d,
+    type: 3}
+  FieldAbandonmentButton: {fileID: 5994790766183383110, guid: 17052701d7f3b334492bc2f726170048,
+    type: 3}
   SkipButton: {fileID: 2259552010709195024}
 --- !u!1 &2259552012102195531
 GameObject:

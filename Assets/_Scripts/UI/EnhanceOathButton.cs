@@ -21,10 +21,10 @@ public class EnhanceOathButton : OathButtonBase
 		dropdown.ClearOptions();
 		dropdown.AddOptions(names);
 	}
-	protected override OathPrepare PrepareEffect()
+	protected override OathUIData PrepareEffect()
 	{
 		PieceType type = (PieceType)Enum.Parse(typeof(PieceType), names[dropdown.value], true);
-		OathPrepare p = new OathPrepare(oath.pieces.Where(x => x.pieceType == type).First());
+		OathUIData p = new OathUIData(oath.pieces.Where(x => x.pieceType == type).First());
 		return p;
 	}
 }

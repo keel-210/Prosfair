@@ -6,12 +6,10 @@ public abstract class OathButtonBase : MonoBehaviour
 	[SerializeField] GameObject OathField;
 	[SerializeField] Material LineMaterial;
 	public GameObject field { get; set; }
-	OathButtons buttons;
 	Button button;
 	LineRenderer line;
 	protected void Start()
 	{
-		buttons = transform.parent.GetComponent<OathButtons>();
 		button = GetComponent<Button>();
 		button.onClick.AddListener(OnClick);
 		DisplayOathRegion();
@@ -44,11 +42,14 @@ public abstract class OathButtonBase : MonoBehaviour
 	public void OnClick()
 	{
 		oath.OathEffect(PrepareEffect());
+		line.enabled = false;
+		Destroy(field);
 		button.onClick.RemoveListener(OnClick);
 	}
-	protected abstract OathPrepare PrepareEffect();
+	protected abstract OathUIData PrepareEffect();
 	void OnDestroy()
 	{
-		Destroy(field);
+		if (field)
+			Destroy(field);
 	}
 }

@@ -4,6 +4,8 @@ using System.Linq;
 public class Board : MonoBehaviour
 {
 	public string name { get; set; }
+	public bool IsOccupied { get; set; }
+	public BoardOccupation OccupiedPlayer { get; set; }
 	public int size, height;
 	public IPiece[,] pieces;
 	public BoardAttribute attribute;
@@ -13,6 +15,7 @@ public class Board : MonoBehaviour
 		if (pieces == null)
 			pieces = new IPiece[size, size];
 		name = _name;
+		OccupiedPlayer = BoardOccupation.NonOccupied;
 		attribute = _attribute;
 		boardTime = _boardTime;
 	}
@@ -32,6 +35,7 @@ public class Board : MonoBehaviour
 		pieces[targetPos.x, targetPos.y] = piece;
 		piece.Move(BoardSpaceToObjectSpace(targetPos));
 		GameRecorder.PieceMoveRecord(piece, this, piece.PositionOnBoard);
+		OccupationCheck();
 	}
 	public void EnhancePieceType(PieceType enhanceType, int enhanceStage)
 	{
@@ -64,5 +68,26 @@ public class Board : MonoBehaviour
 	{
 		Vector2Int p = ObjectSpaceToBoardSpace(pos);
 		return pieces[p.x, p.y];
+	}
+	public void OccupationCheck()
+	{
+		bool WhiteOccupiedCheck = true, BlackOccupiedCheck = true;
+		foreach (IPiece p in pieces)
+		{
+			if (p == null)
+				continue;
+			if (p.IsWhitePlayer && p.CheckMovement().Count() != 0)
+				WhiteOccupiedCheck = false;
+			if (!p.IsWhitePlayer && p.CheckMovement().Count() != 0)
+				BlackOccupiedCheck = false;
+		}
+		if (WhiteOccupiedCheck && BlackOccupiedCheck)
+			OccupiedPlayer = BoardOccupation.BothPlayer;
+		else if (WhiteOccupiedCheck)
+			OccupiedPlayer = BoardOccupation.WhitePlayer;
+		else if (BlackOccupiedCheck)
+			OccupiedPlayer = BoardOccupation.BlackPlayer;
+		else
+			OccupiedPlayer = BoardOccupation.NonOccupied;
 	}
 }

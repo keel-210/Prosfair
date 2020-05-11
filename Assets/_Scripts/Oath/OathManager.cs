@@ -39,7 +39,6 @@ public class OathManager : MonoBehaviour
 	}
 	void OathRemove(Oath oath)
 	{
-		Debug.Log(oath.IsWhitePlayer);
 		(oath.IsWhitePlayer ? WhiteOaths : BlackOaths).Remove(oath);
 		(oath.IsWhitePlayer ? PrevWhiteOaths : PrevBlackOaths).Add(oath);
 	}

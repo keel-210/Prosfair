@@ -6,6 +6,7 @@ public class BoardManager : MonoBehaviour
 {
 	public Board mainBoard;
 	public List<Board> subBoards;
+	public List<GameObject> subBoardGameObjects = new List<GameObject>();
 	[SerializeField] BasicReference basic;
 	[SerializeField] Material WhitePiece, BlackPiece;
 	protected virtual void Start()
@@ -55,10 +56,16 @@ public class BoardManager : MonoBehaviour
 		obj.GetComponent<PieceBase>().IsWhitePlayer = IsWhite;
 		board.AddPiece(p, pos);
 	}
-	public void AddSubBoard(Board b, BoardAttribute attribute, BoardTime boardTime)
+	public void AddSubBoard(OathUIData prepare, FieldCheck check)
 	{
-		b.InitializeBoard("F" + subBoards.Count.ToString(), attribute, boardTime);
+		Board b = subBoardGameObjects[0].AddComponent<Board>();
+		subBoardGameObjects.RemoveAt(0);
+		b.size = check.FieldSize;
+		b.InitializeBoard("F" + subBoards.Count.ToString(), prepare.boardAttribute, prepare.boardTime);
 		subBoards.Add(b);
+		foreach (IPiece p in check.AllPieces)
+			SetPiece(b, p.pieceType, p.PositionOnBoard - check.FieldPos, p.IsWhitePlayer);
+		b.OccupationCheck();
 	}
 	public void AllFieldEnhance(List<PieceType> types, int enhanceStage)
 	{

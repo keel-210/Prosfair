@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Linq;
 public abstract class Oath : IOath
 {
+	public OathType type { get; set; }
 	public bool IsWhitePlayer { get; set; }
 	public List<IPiece> pieces { get; set; }
 	public Board board { get; set; }
@@ -13,8 +14,9 @@ public abstract class Oath : IOath
 
 	protected int PhaseCompletePiecesNum { get; set; }
 	protected BoardManager manager { get; set; }
-	public Oath(BoardManager _manager, Board b, List<IPiece> l, bool IsWhite)
+	public Oath(OathType _type, BoardManager _manager, Board b, List<IPiece> l, bool IsWhite)
 	{
+		type = _type;
 		board = b;
 		PhaseCompletePiecesNum = l.Count;
 		pieces = l;
@@ -25,10 +27,10 @@ public abstract class Oath : IOath
 		minRegion = new Vector2Int(Xs.Min(), Ys.Min());
 		maxRegion = new Vector2Int(Xs.Max(), Ys.Max());
 	}
-	public virtual void OathEffect(OathPrepare prepare)
+	public virtual void OathEffect(OathUIData prepare)
 	{
 		OnEffectPrepare.Invoke(prepare);
 	}
 }
 public class OnEffectCallback : UnityEngine.Events.UnityEvent<Oath> { }
-public class OnPrevEffectPrepare : UnityEngine.Events.UnityEvent<OathPrepare> { }
+public class OnPrevEffectPrepare : UnityEngine.Events.UnityEvent<OathUIData> { }

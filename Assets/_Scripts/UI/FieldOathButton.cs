@@ -21,11 +21,11 @@ public class FieldOathButton : OathButtonBase
 		timeDD.AddOptions(names);
 	}
 	IPiece piece;
-	protected override OathPrepare PrepareEffect()
+	protected override OathUIData PrepareEffect()
 	{
 		BoardAttribute b = (BoardAttribute)Enum.ToObject(typeof(BoardAttribute), attributeDD.value);
 		BoardTime t = (BoardTime)Enum.ToObject(typeof(BoardTime), timeDD.value);
-		OathPrepare p = new OathPrepare(b, t);
+		OathUIData p = new OathUIData(b, t);
 		return p;
 	}
 }

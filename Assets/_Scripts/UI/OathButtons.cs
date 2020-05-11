@@ -6,6 +6,7 @@ public class OathButtons : MonoBehaviour
 {
 	public OathManager manager;
 	public GameObject button, subButton;
+	public GameObject EnhanceButton, FieldButton, TypeEnhanceButton, FieldAbandonmentButton;
 	public Button SkipButton;
 	List<GameObject> Buttons = new List<GameObject>();
 	void Start()
@@ -32,13 +33,21 @@ public class OathButtons : MonoBehaviour
 		for (int i = 0; i < Buttons.Count; i++)
 		{
 			Rect r = Buttons[i].GetComponent<RectTransform>().rect;
-			Vector3 p = new Vector3(-ButtonsRect.width + r.width * 0.5f, ButtonsRect.height - r.height * (i + 0.5f), 0);
+			Vector3 p = new Vector3(-ButtonsRect.width + r.width * 0.5f, ButtonsRect.height - r.height * 2 * (i + 0.5f), 0);
 			Buttons[i].transform.localPosition = p;
 		}
 	}
 	GameObject AddButton(Oath o)
 	{
-		GameObject obj = Instantiate(button, transform.position, Quaternion.identity, transform);
+		GameObject obj = default;
+		switch (o.type)
+		{
+			case OathType.Enhance: obj = EnhanceButton; break;
+			case OathType.Field: obj = FieldButton; break;
+			case OathType.TypeEnhance: obj = EnhanceButton; break;
+			case OathType.FieldAbandonment: obj = EnhanceButton; break;
+		}
+		obj = Instantiate(obj, transform.position, Quaternion.identity, transform);
 		obj.GetComponent<OathButtonBase>().oath = o;
 		return obj;
 	}
