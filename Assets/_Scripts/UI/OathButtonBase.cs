@@ -43,8 +43,8 @@ public abstract class OathButtonBase : MonoBehaviour
 	{
 		oath.OathEffect(PrepareEffect());
 		line.enabled = false;
-		Destroy(field);
 		button.onClick.RemoveListener(OnClick);
+		Destroy(this.gameObject);
 	}
 	protected abstract OathUIData PrepareEffect();
 	void OnDestroy()

@@ -19,13 +19,10 @@ public class OathUIData
 	public OathUIData(PieceType p)
 	{
 		type = OathType.TypeEnhance;
+		MultipleTargetPieceType = p;
 	}
 	public OathUIData()
 	{
 		type = OathType.FieldAbandonment;
 	}
-}
-public enum OathType
-{
-	Enhance, Field, TypeEnhance, FieldAbandonment
 }

@@ -8,7 +8,6 @@ public class BoardManager : MonoBehaviour
 	public List<Board> subBoards;
 	public List<GameObject> subBoardGameObjects = new List<GameObject>();
 	[SerializeField] BasicReference basic;
-	[SerializeField] Material WhitePiece, BlackPiece;
 	protected virtual void Start()
 	{
 		Debug.Log("Init Board");
@@ -45,12 +44,6 @@ public class BoardManager : MonoBehaviour
 	{
 		GameObject obj = Instantiate(basic.PieceReferrence[(int)type]);
 		var renderers = obj.GetComponentsInChildren<Renderer>();
-		if (IsWhite)
-			foreach (Renderer r in renderers)
-				r.material = WhitePiece;
-		else
-			foreach (Renderer r in renderers)
-				r.material = BlackPiece;
 
 		IPiece p = obj.GetComponent<IPiece>();
 		obj.GetComponent<PieceBase>().IsWhitePlayer = IsWhite;
@@ -66,8 +59,23 @@ public class BoardManager : MonoBehaviour
 		foreach (IPiece p in check.AllPieces)
 			SetPiece(b, p.pieceType, p.PositionOnBoard - check.FieldPos, p.IsWhitePlayer);
 		b.OccupationCheck();
+		GameRecorder.FieldOathRecord(b);
+	}
+
+	public void AbandonmentSubBoard(Board b, OathUIData prepare)
+	{
+
 	}
 	public void AllFieldEnhance(List<PieceType> types, int enhanceStage)
+	{
+		foreach (PieceType t in types)
+		{
+			mainBoard.EnhancePieceType(t, enhanceStage);
+			foreach (Board b in subBoards)
+				b.EnhancePieceType(t, enhanceStage);
+		}
+	}
+	public void AllFieldExperience(List<PieceType> types, int enhanceStage)
 	{
 		foreach (PieceType t in types)
 		{

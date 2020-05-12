@@ -18,18 +18,21 @@ public static class OathChecker
 
 	public static Oath OathTypeInstantiate(BoardManager boards, Board board, List<IPiece> pieces, bool IsWhite)
 	{
-		Oath o;
 		var check = FieldOathCheck(board, pieces, IsWhite);
-		if (check != null)
+		if (check != null && check.FieldSize < board.size)
 		{
 			Debug.Log((check != null).ToString() + " " + check.WhitePieceCount + " " + check.BlackPieceCount);
 			var f = new FieldOath(OathType.Field, boards, board, pieces, IsWhite);
 			f.Initialize(check);
-			o = f;
+			return f;
 		}
+		if (pieces.Count >= 9)
+			if (board.OccupiedPlayer != BoardOccupation.NonOccupied)
+				return new FieldAbandonmentOath(OathType.TypeEnhance, boards, board, pieces, IsWhite);
+			else
+				return new TypeEnhanceOath(OathType.TypeEnhance, boards, board, pieces, IsWhite);
 		else
-			o = new EnhanceOath(OathType.Enhance, boards, board, pieces, IsWhite);
-		return o;
+			return new EnhanceOath(OathType.Enhance, boards, board, pieces, IsWhite);
 	}
 	public static FieldCheck FieldOathCheck(Board board, List<IPiece> pieces, bool IsWhite)
 	{
@@ -50,6 +53,9 @@ public static class OathChecker
 		else
 			return f;
 	}
+	//指定領域の調査
+	//条件に合致するなら範囲内の全ての駒を含んだFieldCheckを返す
+	//条件に合致しないなら例外値として何も含まないFieldCheckを返す
 	public static FieldCheck RegionCheck(Board board, List<List<Vector2Int>> checkPoses, bool IsWhite, int fieldSize)
 	{
 		FieldCheck check = new FieldCheck(new List<IPiece>(), 0, Vector2Int.zero);

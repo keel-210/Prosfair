@@ -11,6 +11,9 @@ public class EnhanceOath : Oath
 		OnEffectActivated.Invoke(this);
 		IPiece p = prepare.TargetPiece;
 		if (pieces.Count > p.Stage)
+		{
 			p.Stage++;
+			GameRecorder.EnhanceOathRecord(this, board);
+		}
 	}
 }

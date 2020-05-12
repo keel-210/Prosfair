@@ -45,6 +45,12 @@ public class Board : MonoBehaviour
 			if (p != null && p.pieceType == enhanceType)
 				p.Stage += enhanceStage;
 	}
+	public void ExpPieceType(PieceType enhanceType, int enhanceStage)
+	{
+		foreach (IPiece p in pieces)
+			if (p != null && p.pieceType == enhanceType)
+				p.Experience += enhanceStage;
+	}
 	public void ChangePieceAttribute(PieceType enhanceType, PieceAttribute attr)
 	{
 		foreach (IPiece p in pieces)

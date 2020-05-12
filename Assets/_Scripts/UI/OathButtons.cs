@@ -15,6 +15,14 @@ public class OathButtons : MonoBehaviour
 		SkipButton.onClick.AddListener(manager.phaseManager.WhitePlayer.OathSkip);
 		SkipButton.onClick.AddListener(manager.phaseManager.BlackPlayer.OathSkip);
 	}
+	void Update()
+	{
+		int ButtonCountCashe = Buttons.Count;
+		Buttons = Buttons.Where(x => x != null).ToList();
+		SetButtonPos();
+		if (ButtonCountCashe != 0 && Buttons.Count == 0)
+			SkipButton.onClick.Invoke();
+	}
 	public void LoadOaths(bool IsWhitePlaying)
 	{
 		Clear();
@@ -33,7 +41,7 @@ public class OathButtons : MonoBehaviour
 		for (int i = 0; i < Buttons.Count; i++)
 		{
 			Rect r = Buttons[i].GetComponent<RectTransform>().rect;
-			Vector3 p = new Vector3(-ButtonsRect.width + r.width * 0.5f, ButtonsRect.height - r.height * 2 * (i + 0.5f), 0);
+			Vector3 p = new Vector3(r.width * 0.5f, -r.height * 2 * (i + 0.5f), 0);
 			Buttons[i].transform.localPosition = p;
 		}
 	}
