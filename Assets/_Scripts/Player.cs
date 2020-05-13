@@ -115,7 +115,7 @@ public class Player : MonoBehaviour
 		LayerMask mask = 1 << 10;
 		if (Physics.Raycast(ray, out hit, 100f, mask))
 		{
-			bp.board = hit.collider.GetComponent<Board>();
+			bp.board = hit.collider.GetComponent<Board_MonoProxy>().board;
 			bp.PosOnBoard = bp.board.ObjectSpaceToBoardSpace(hit.point);
 			bp.pos = hit.point;
 		}

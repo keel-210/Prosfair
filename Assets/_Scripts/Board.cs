@@ -1,23 +1,27 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-public class Board : MonoBehaviour
+public class Board
 {
 	public string name { get; set; }
-	public bool IsOccupied { get; set; }
+	public Board_MonoProxy board_MonoProxy { get; set; }
 	public BoardOccupation OccupiedPlayer { get; set; }
-	public int size, height;
+	public int size { get; private set; }
+	public int height { get; set; }
 	public IPiece[,] pieces;
 	public BoardAttribute attribute;
 	public BoardTime boardTime;
-	public void InitializeBoard(string _name, BoardAttribute _attribute, BoardTime _boardTime)
+	public void InitializeBoard(string _name, int _fieldSize, BoardAttribute _attribute, BoardTime _boardTime, Board_MonoProxy proxy)
 	{
-		if (pieces == null)
-			pieces = new IPiece[size, size];
 		name = _name;
+		size = _fieldSize;
 		OccupiedPlayer = BoardOccupation.NonOccupied;
 		attribute = _attribute;
 		boardTime = _boardTime;
+		board_MonoProxy = proxy;
+		proxy.board = this;
+		if (pieces == null)
+			pieces = new IPiece[size, size];
 	}
 	public void AddPiece(IPiece piece, Vector2Int Pos)
 	{
@@ -59,16 +63,11 @@ public class Board : MonoBehaviour
 	}
 	public Vector2Int ObjectSpaceToBoardSpace(Vector3 o_pos)
 	{
-		Vector3 v = (o_pos - transform.position + new Vector3(0.05f, 0, 0.05f)) / 0.1f;
-		v = new Vector3(Mathf.Floor(v.x), 0, Mathf.Floor(v.z));
-		Vector2Int vi = new Vector2Int((int)v.x + size / 2, (int)v.z + size / 2);
-		return vi;
+		return board_MonoProxy.ObjectSpaceToBoardSpace(o_pos);
 	}
 	public Vector3 BoardSpaceToObjectSpace(Vector2Int b_pos)
 	{
-		Vector2Int vi = b_pos - Vector2Int.one * (size / 2);
-		Vector3 v = new Vector3(vi.x * 0.1f, 0, vi.y * 0.1f);
-		return v + transform.position;
+		return board_MonoProxy.BoardSpaceToObjectSpace(b_pos);
 	}
 	public IPiece GetPieceOnRayPosition(Vector3 pos)
 	{

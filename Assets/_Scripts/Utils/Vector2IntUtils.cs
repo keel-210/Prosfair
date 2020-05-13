@@ -19,11 +19,12 @@ public static class Vector2IntUtils
 	{
 		List<List<Vector2Int>> l = new List<List<Vector2Int>>();
 		Vector2Int oathSize = _max - _min;
-		Vector2Int Space = new Vector2Int(fieldSize, fieldSize) - oathSize;
-		for (int i = -Space.x; i <= Space.x; i++)
-			for (int j = -Space.y; j <= Space.y; j++)
-				if (0 <= _min.x + i && 0 <= _min.y + j && _min.x + i + 4 < BoardSize && _min.y + j + 4 < BoardSize)
-					l.Add(new List<Vector2Int> { new Vector2Int(_min.x + i, _min.y + j), new Vector2Int(_min.x + i + 4, _min.y + j + 4) });
+		Vector2Int Space = new Vector2Int(fieldSize, fieldSize) - oathSize - Vector2Int.one;
+		int f = fieldSize - 1;
+		for (int i = -Space.x; i <= 0; i++)
+			for (int j = -Space.y; j <= 0; j++)
+				if (0 <= _min.x + i && 0 <= _min.y + j && _min.x + i + f < BoardSize && _min.y + j + f < BoardSize)
+					l.Add(new List<Vector2Int> { new Vector2Int(_min.x + i, _min.y + j), new Vector2Int(_min.x + i + f, _min.y + j + f) });
 		return l;
 	}
 }

@@ -5,19 +5,20 @@ using System.Linq;
 public class BoardManager : MonoBehaviour
 {
 	public Board mainBoard;
-	public List<Board> subBoards;
+	public GameObject mainBoardGameObject;
+	public List<Board> subBoards = new List<Board>();
 	public List<GameObject> subBoardGameObjects = new List<GameObject>();
 	[SerializeField] BasicReference basic;
 	protected virtual void Start()
 	{
 		Debug.Log("Init Board");
-		mainBoard.size = 13;
+		mainBoard = new Board();
 		SetInitPiece(true);
 		SetInitPiece(false);
 	}
 	protected void SetInitPiece(bool IsWhite)
 	{
-		mainBoard.InitializeBoard("M", BoardAttribute.Ignoria, BoardTime.Claint);
+		mainBoard.InitializeBoard("M", 13, BoardAttribute.Ignoria, BoardTime.Claint, mainBoardGameObject.GetComponent<Board_MonoProxy>());
 		int PosY = 0, Dir = 0;
 		if (IsWhite)
 		{ PosY = 2; Dir = -1; }
@@ -51,10 +52,13 @@ public class BoardManager : MonoBehaviour
 	}
 	public void AddSubBoard(OathUIData prepare, FieldCheck check)
 	{
-		Board b = subBoardGameObjects[0].AddComponent<Board>();
+		Board b = new Board();
+		var proxy = subBoardGameObjects[0].AddComponent<Board_MonoProxy>();
+		//ここなんか違うコンポーネント追加時にリファレンス持っておきたいときはどうすればいいのか
+		//単純にAAS入れたら？まあ...それで解決する案件ではある．もうちょっとリソース増えて管理しづらくなってきたら導入
+		proxy.DisplayField = basic.FieldReference[2];
 		subBoardGameObjects.RemoveAt(0);
-		b.size = check.FieldSize;
-		b.InitializeBoard("F" + subBoards.Count.ToString(), prepare.boardAttribute, prepare.boardTime);
+		b.InitializeBoard("F" + subBoards.Count.ToString(), check.FieldSize, prepare.boardAttribute, prepare.boardTime, proxy);
 		subBoards.Add(b);
 		foreach (IPiece p in check.AllPieces)
 			SetPiece(b, p.pieceType, p.PositionOnBoard - check.FieldPos, p.IsWhitePlayer);

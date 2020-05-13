@@ -7,7 +7,8 @@ public class BoardManager_Test : BoardManager
 	public List<TestPiecePos> testPieces = new List<TestPiecePos>();
 	protected override void Start()
 	{
-		mainBoard.InitializeBoard("M", BoardAttribute.Ignoria, BoardTime.Claint);
+		mainBoard = new Board();
+		mainBoard.InitializeBoard("M", 13, BoardAttribute.Ignoria, BoardTime.Claint, mainBoardGameObject.GetComponent<Board_MonoProxy>());
 		foreach (TestPiecePos p in testPieces)
 			SetPiece(mainBoard, p.type, p.pos, p.IsWhite);
 	}

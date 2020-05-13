@@ -8,7 +8,9 @@ public class BoardStatusChecker : MonoBehaviour
 	public bool IsInitialized;
 	void Start()
 	{
-		if (board == null || IsInitialized)
+		if (obj.GetComponent<Board_MonoProxy>())
+			board = obj.GetComponent<Board_MonoProxy>().board;
+		else
 			return;
 		IsInitialized = !IsInitialized;
 		Vector3 pos = board.BoardSpaceToObjectSpace(new Vector2Int(board.size - 1, board.size - 1));
@@ -25,12 +27,13 @@ public class BoardStatusChecker : MonoBehaviour
 	}
 	void Update()
 	{
-		if (board == null && (board = obj.GetComponent<Board>()) == null)
-			return;
-		else
+		if (!IsInitialized)
 			Start();
-		OccupiedPlayer.text = board.OccupiedPlayer.ToString();
-		BoardAttribute.text = board.attribute.ToString();
-		BoardTime.text = board.boardTime.ToString();
+		else
+		{
+			OccupiedPlayer.text = board.OccupiedPlayer.ToString();
+			BoardAttribute.text = board.attribute.ToString();
+			BoardTime.text = board.boardTime.ToString();
+		}
 	}
 }
