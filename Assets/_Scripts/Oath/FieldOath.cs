@@ -16,6 +16,6 @@ public class FieldOath : Oath
 	public override void OathEffect(OathUIData UIData)
 	{
 		OnEffectActivated.Invoke(this);
-		manager.AddSubBoard(UIData, check);
+		manager.AddSubBoard(this, UIData, check);
 	}
 }

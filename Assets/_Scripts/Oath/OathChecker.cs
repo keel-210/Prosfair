@@ -15,25 +15,6 @@ public static class OathChecker
 		RelativeCoordinates.Add(OathUtils.RelativeCoordinates6);
 		RelativeCoordinates.Add(OathUtils.RelativeCoordinates7);
 	}
-
-	public static Oath OathTypeInstantiate(BoardManager boards, Board board, List<IPiece> pieces, bool IsWhite)
-	{
-		var check = FieldOathCheck(board, pieces, IsWhite);
-		if (check != null && check.FieldSize < board.size)
-		{
-			Debug.Log((check != null).ToString() + " " + check.WhitePieceCount + " " + check.BlackPieceCount);
-			var f = new FieldOath(OathType.Field, boards, board, pieces, IsWhite);
-			f.Initialize(check);
-			return f;
-		}
-		if (pieces.Count >= 9)
-			if (board.OccupiedPlayer != BoardOccupation.NonOccupied)
-				return new FieldAbandonmentOath(OathType.TypeEnhance, boards, board, pieces, IsWhite);
-			else
-				return new TypeEnhanceOath(OathType.TypeEnhance, boards, board, pieces, IsWhite);
-		else
-			return new EnhanceOath(OathType.Enhance, boards, board, pieces, IsWhite);
-	}
 	public static FieldCheck FieldOathCheck(Board board, List<IPiece> pieces, bool IsWhite)
 	{
 		//位相の範囲内に相手駒が2つ以上ある->true

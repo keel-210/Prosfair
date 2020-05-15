@@ -21,7 +21,7 @@ public class OathUIData
 		type = OathType.TypeEnhance;
 		MultipleTargetPieceType = p;
 	}
-	public OathUIData()
+	public OathUIData(bool IsWhite)
 	{
 		type = OathType.FieldAbandonment;
 	}

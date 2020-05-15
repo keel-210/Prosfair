@@ -19,11 +19,11 @@ public class Board_MonoProxy : MonoBehaviour
 		Vector3 v = new Vector3(vi.x * 0.1f, 0, vi.y * 0.1f);
 		return v + transform.position;
 	}
-	public void DisplaySubBoardField(Vector2Int pos, int size)
+	public void DisplaySubBoardField(Board b, Vector2Int pos, int size)
 	{
 		field = Instantiate(DisplayField);
-		Vector3 minPos = board.BoardSpaceToObjectSpace(pos);
-		Vector3 maxPos = board.BoardSpaceToObjectSpace(pos + Vector2Int.one * size);
+		Vector3 minPos = b.BoardSpaceToObjectSpace(pos);
+		Vector3 maxPos = b.BoardSpaceToObjectSpace(pos + Vector2Int.one * size);
 		field.transform.position = (minPos + maxPos) / 2;
 		float XScale = Mathf.Abs(maxPos.x - minPos.x) + 0.1f, ZScale = Mathf.Abs(maxPos.z - minPos.z) + 0.1f;
 		field.transform.localScale = new Vector3(XScale, field.transform.localScale.y, ZScale);

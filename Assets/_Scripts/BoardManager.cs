@@ -44,32 +44,37 @@ public class BoardManager : MonoBehaviour
 	protected void SetPiece(Board board, PieceType type, Vector2Int pos, bool IsWhite)
 	{
 		GameObject obj = Instantiate(basic.PieceReferrence[(int)type]);
-		var renderers = obj.GetComponentsInChildren<Renderer>();
-
 		IPiece p = obj.GetComponent<IPiece>();
 		obj.GetComponent<PieceBase>().IsWhitePlayer = IsWhite;
 		board.AddPiece(p, pos);
 	}
-	public void AddSubBoard(OathUIData prepare, FieldCheck check)
+	public void AddSubBoard(Oath o, OathUIData prepare, FieldCheck check)
 	{
 		Board b = new Board();
 		var proxy = subBoardGameObjects[0].AddComponent<Board_MonoProxy>();
-		//ここなんか違うコンポーネント追加時にリファレンス持っておきたいときはどうすればいいのか
-		//単純にAAS入れたら？まあ...それで解決する案件ではある．もうちょっとリソース増えて管理しづらくなってきたら導入
-		proxy.DisplayField = basic.FieldReference[2];
 		subBoardGameObjects.RemoveAt(0);
 		b.InitializeBoard("F" + subBoards.Count.ToString(), check.FieldSize, prepare.boardAttribute, prepare.boardTime, proxy);
+		//Boardの初期化周りもうちょっときれいに
+		b.OriginalOathBoard = o.board;
 		subBoards.Add(b);
 		foreach (IPiece p in check.AllPieces)
 			SetPiece(b, p.pieceType, p.PositionOnBoard - check.FieldPos, p.IsWhitePlayer);
 		b.OccupationCheck();
+		//ここなんか違うコンポーネント追加時にリファレンス持っておきたいときはどうすればいいのか
+		//単純にAAS入れたら？まあ...それで解決する案件ではある．もうちょっとリソース増えて管理しづらくなってきたら導入
+		proxy.DisplayField = basic.FieldReference[2];
+		proxy.DisplaySubBoardField(o.board, check.FieldPos, check.FieldSize - 1);
 		GameRecorder.FieldOathRecord(b);
 	}
 
-	public void AbandonmentSubBoard(Board b, OathUIData prepare)
+	public void AbandonmentSubBoard(Board b, Vector2Int pos, PieceType type, bool IsWhite)
 	{
-
+		SetPiece(b.OriginalOathBoard, type, pos, IsWhite);
+		subBoards.Remove(b);
+		subBoardGameObjects.Add(b.board_MonoProxy.gameObject);
+		Destroy(b.board_MonoProxy);
 	}
+
 	public void AllFieldEnhance(List<PieceType> types, int enhanceStage)
 	{
 		foreach (PieceType t in types)

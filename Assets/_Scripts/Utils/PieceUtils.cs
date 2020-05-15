@@ -52,7 +52,19 @@ public static class PieceUtils
 		}
 		return "0";
 	}
-
+	public static PieceType SpecialTypeFromOathCount(int OathCount)
+	{
+		switch (OathCount)
+		{
+			case 9: return PieceType.Backtorce;
+			case 13: return PieceType.Maanagis;
+			case 17: return PieceType.Inquisice;
+			case 21: return PieceType.Chelstaminus;
+			case 26: return PieceType.Penalcantos;
+			case 30: return PieceType.Recstarionis;
+			default: return PieceType.Gore;
+		}
+	}
 	public static bool IsDefeatByTargetPiece()
 	{
 		return true;

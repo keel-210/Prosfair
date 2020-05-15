@@ -62,7 +62,7 @@ public class OathManager : MonoBehaviour
 				List<IPiece> pieces = OathUtils.PiecesPlacementCheck(r, p, board);
 				if (pieces.Count == r.Count && !OathUtils.IsInitialPlacementException(pieces))
 					if (pieces[0].IsWhitePlayer == IsWhite && !DeplicationOathException(pieces))
-						o.Add(OathChecker.OathTypeInstantiate(boards, board, pieces, IsWhite));
+						o.Add(OathTypeInstantiate(boards, board, pieces, IsWhite));
 			}
 		}
 		return o;
@@ -85,5 +85,23 @@ public class OathManager : MonoBehaviour
 				return true;
 		}
 		return false;
+	}
+	public Oath OathTypeInstantiate(BoardManager boards, Board board, List<IPiece> pieces, bool IsWhite)
+	{
+		var check = OathChecker.FieldOathCheck(board, pieces, IsWhite);
+		if (check != null && check.FieldSize < board.size)
+		{
+			Debug.Log((check != null).ToString() + " " + check.WhitePieceCount + " " + check.BlackPieceCount);
+			var f = new FieldOath(OathType.Field, boards, board, pieces, IsWhite);
+			f.Initialize(check);
+			return f;
+		}
+		if (pieces.Count >= 9)
+			if (board.OccupiedPlayer != BoardOccupation.NonOccupied)
+				return new FieldAbandonmentOath(OathType.TypeEnhance, boards, board, pieces, IsWhite, phaseManager.WhitePlayer, phaseManager.BlackPlayer);
+			else
+				return new TypeEnhanceOath(OathType.TypeEnhance, boards, board, pieces, IsWhite);
+		else
+			return new EnhanceOath(OathType.Enhance, boards, board, pieces, IsWhite);
 	}
 }

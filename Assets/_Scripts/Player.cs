@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 	public IPiece TargetPiece;
 	public bool IsWhitePlayer = false;
 	public OathManager oathManager;
+	public PieceStock stock;
 	List<GameObject> MovableFieldCache = new List<GameObject>();
 	List<Vector2Int> MovablePos = new List<Vector2Int>();
 	BoardAndPos BoardAndPosCache;
@@ -35,12 +36,8 @@ public class Player : MonoBehaviour
 		if (this.enabled && phase == PlayerPhase.FirstOath || phase == PlayerPhase.SecondOath)
 			NextPhase();
 	}
-	void FirstOath()
-	{
-	}
-	void SecondOath()
-	{
-	}
+	void FirstOath() { }
+	void SecondOath() { }
 	void PieceSelect()
 	{
 		if (!Input.GetMouseButtonDown(0))

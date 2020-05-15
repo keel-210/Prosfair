@@ -25,6 +25,12 @@ public static class GameRecorder
 	{
 		WriteFullRecord(oath.IsWhitePlayer.ToString() + "Oath " + b.name + b.attribute + b.boardTime);
 	}
+	static public void FieldAbandonmentOathRecord(PieceType type, Vector2Int pos)
+	{
+		WriteFullRecord("El Arlio " + type + " " + pos);
+		WriteRecord("El Arlio " + type + " " + pos);
+		WriteSimpleRecord("EA " + PieceUtils.PieceSimpleNotation(type) + " " + pos);
+	}
 	static void WriteRecord(string s)
 	{
 		BasicRecord += s + System.Environment.NewLine;

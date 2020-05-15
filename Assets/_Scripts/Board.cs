@@ -4,6 +4,7 @@ using System.Linq;
 public class Board
 {
 	public string name { get; set; }
+	public Board OriginalOathBoard { get; set; }
 	public Board_MonoProxy board_MonoProxy { get; set; }
 	public BoardOccupation OccupiedPlayer { get; set; }
 	public int size { get; private set; }
@@ -95,4 +96,5 @@ public class Board
 		else
 			OccupiedPlayer = BoardOccupation.NonOccupied;
 	}
+
 }

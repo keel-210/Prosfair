@@ -27,4 +27,8 @@ public static class Vector2IntUtils
 					l.Add(new List<Vector2Int> { new Vector2Int(_min.x + i, _min.y + j), new Vector2Int(_min.x + i + f, _min.y + j + f) });
 		return l;
 	}
+	public static bool IsWhithinRangePos(Vector2Int pos, Vector2Int min, Vector2Int max)
+	{
+		return (min.x <= pos.x && pos.x <= max.x && min.y <= pos.y && pos.y <= max.y);
+	}
 }
