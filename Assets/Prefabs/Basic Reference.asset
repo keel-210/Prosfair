@@ -30,3 +30,7 @@ MonoBehaviour:
   - {fileID: 1187115022013181947, guid: 1a5607848faec23409367e184ecfaedc, type: 3}
   - {fileID: 1474099913635463400, guid: 59ef21887068efb4da3e472743a664b6, type: 3}
   - {fileID: 4091487260940719297, guid: d0884a1ca65ec3344805fb5bb3cc6687, type: 3}
+  FieldReference:
+  - {fileID: 2407000731237650327, guid: f42b91752cdd10245bf6d0b849a96103, type: 3}
+  - {fileID: 7608715950792654419, guid: 0d96c918bc8b78a42ae3b6ba1698906f, type: 3}
+  - {fileID: 7608715950792654419, guid: d1b847ef551e0ca48a2349d7994621cb, type: 3}

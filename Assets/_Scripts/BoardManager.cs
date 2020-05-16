@@ -84,8 +84,9 @@ public class BoardManager : MonoBehaviour
 				b.EnhancePieceType(t, enhanceStage);
 		}
 	}
-	public void AllFieldExperience(List<PieceType> types, int enhanceStage)
+	public void AllFieldExperience(List<PieceType> types)
 	{
+		int enhanceStage = subBoards.Where(x => x.size == subBoards.Last().size).Count() * 2;
 		foreach (PieceType t in types)
 		{
 			mainBoard.EnhancePieceType(t, enhanceStage);

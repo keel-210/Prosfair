@@ -7,6 +7,7 @@ public class BoardManager_Miner : BoardManager
 	protected override void Start()
 	{
 		Debug.Log("Init Board");
+		mainBoard = new Board();
 		SetInitPiece(true);
 		SetInitPiece(false);
 	}

@@ -64,4 +64,14 @@ public class OathButtons : MonoBehaviour
 		Buttons.ForEach(x => Destroy(x));
 		Buttons.Clear();
 	}
+	public void FieldButtonAllClear()
+	{
+		var f = Buttons.Where(x => x.GetComponent<OathButtonBase>().oath.type == OathType.Field
+			|| x.GetComponent<OathButtonBase>().oath.type == OathType.FieldAbandonment).ToList();
+		foreach (GameObject g in f)
+		{
+			Buttons.Remove(g);
+			Destroy(g);
+		}
+	}
 }

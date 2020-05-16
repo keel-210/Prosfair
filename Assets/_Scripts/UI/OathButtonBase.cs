@@ -6,8 +6,8 @@ public abstract class OathButtonBase : MonoBehaviour
 	[SerializeField] GameObject OathField;
 	[SerializeField] Material LineMaterial;
 	public GameObject field { get; set; }
-	Button button;
-	LineRenderer line;
+	protected Button button;
+	protected LineRenderer line;
 	protected void Start()
 	{
 		button = GetComponent<Button>();
@@ -39,7 +39,7 @@ public abstract class OathButtonBase : MonoBehaviour
 		line.startWidth = line.endWidth = 0.01f;
 		line.material = LineMaterial;
 	}
-	public void OnClick()
+	public virtual void OnClick()
 	{
 		oath.OathEffect(PrepareEffect());
 		line.enabled = false;

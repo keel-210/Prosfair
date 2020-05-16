@@ -98,7 +98,7 @@ public static class OathUtils
 		}
 		return types;
 	}
-	public static PieceAttribute PieceTypebyBoardAttribute(BoardAttribute attr)
+	public static PieceAttribute AttributebyBoardAttribute(BoardAttribute attr)
 	{
 		switch (attr)
 		{

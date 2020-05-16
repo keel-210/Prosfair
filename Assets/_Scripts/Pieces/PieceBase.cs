@@ -39,9 +39,6 @@ public abstract class PieceBase : MonoBehaviour, IPiece
 	{
 		Destroy(gameObject);
 	}
-	public void BoardUpdate()
-	{
-	}
 	protected void Check(List<Vector2Int> temp, Vector2Int target)
 	{
 		if (!IsWhitePlayer)

@@ -16,5 +16,4 @@ public interface IPiece
 	void Move(Vector3 pos);
 	void KillSelf();
 	List<Vector2Int> CheckMovement();
-	void BoardUpdate();
 }

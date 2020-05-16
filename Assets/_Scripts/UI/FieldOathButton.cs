@@ -6,6 +6,7 @@ using System;
 public class FieldOathButton : OathButtonBase
 {
 	[SerializeField] Dropdown attributeDD, timeDD;
+	OathButtons Buttons;
 	void Start()
 	{
 		base.Start();
@@ -19,13 +20,22 @@ public class FieldOathButton : OathButtonBase
 		names = new List<string>(tempEnums);
 		timeDD.ClearOptions();
 		timeDD.AddOptions(names);
+
+		Buttons = transform.parent.GetComponent<OathButtons>();
 	}
-	IPiece piece;
 	protected override OathUIData PrepareEffect()
 	{
 		BoardAttribute b = (BoardAttribute)Enum.ToObject(typeof(BoardAttribute), attributeDD.value);
 		BoardTime t = (BoardTime)Enum.ToObject(typeof(BoardTime), timeDD.value);
 		OathUIData p = new OathUIData(b, t);
 		return p;
+	}
+	public override void OnClick()
+	{
+		oath.OathEffect(PrepareEffect());
+		line.enabled = false;
+		button.onClick.RemoveListener(OnClick);
+		Buttons.FieldButtonAllClear();
+		Destroy(this.gameObject);
 	}
 }

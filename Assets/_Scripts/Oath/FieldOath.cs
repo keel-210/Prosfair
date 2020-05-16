@@ -17,5 +17,17 @@ public class FieldOath : Oath
 	{
 		OnEffectActivated.Invoke(this);
 		manager.AddSubBoard(this, UIData, check);
+		OathEffect2Piece();
+	}
+	void OathEffect2Piece()
+	{
+		var targetTypes = OathUtils.InversionTargetPieceTypebyBoardTime(boardTime);
+		var InvTargetTypes = OathUtils.InversionTargetPieceTypebyBoardTime(boardTime);
+		var targetAttribute = OathUtils.AttributebyBoardAttribute(boardAttribute);
+		manager.AllFieldEnhance(targetTypes, 1);
+		if (boardAttribute == BoardAttribute.Vettoria)
+			manager.AllFieldEnhance(InvTargetTypes, -1);
+		manager.AllFieldExperience(targetTypes);
+		manager.AllPieceAttribute(targetTypes, targetAttribute);
 	}
 }
