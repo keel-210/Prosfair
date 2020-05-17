@@ -9,7 +9,6 @@ public class PieceMover : MonoBehaviour
 	public GameObject MovableFieldReference;
 	//いろんなところからアクセスしすぎだこれでよし
 	//PhaseManagerに任せた方がいいのではPieceMoverになった以上phaseは分離するべきでは
-	public PlayerPhase phase;
 	public IPiece TargetPiece;
 	public bool IsWhitePlayer = false;
 	[SerializeField] GamePhaseManager phaseManager;
@@ -18,9 +17,9 @@ public class PieceMover : MonoBehaviour
 	BoardAndPos BoardAndPosCache;
 	void Update()
 	{
-		if (phase == PlayerPhase.PieceSelect)
+		if (phaseManager.Phase(IsWhitePlayer) == PlayerPhase.PieceSelect)
 			PieceSelectPhase();
-		if (phase == PlayerPhase.PieceSelected)
+		else if (phaseManager.Phase(IsWhitePlayer) == PlayerPhase.PieceSelected)
 			PieceMovePhase();
 	}
 	void PieceSelectPhase()
@@ -62,7 +61,7 @@ public class PieceMover : MonoBehaviour
 		BoardAndPosCache = null;
 		MovableFieldCache.ForEach(x => Destroy(x));
 		MovableFieldCache.Clear();
-		phase = PlayerPhase.PieceSelect;
+		phaseManager.CancelPiece();
 	}
 	void DisplayMovablePosition(BoardAndPos bp)
 	{

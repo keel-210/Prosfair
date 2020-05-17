@@ -23,9 +23,7 @@ public class GamePhaseManager : MonoBehaviour
 	}
 	void Update()
 	{
-		if (IsWhitePlaying && WhitePlayer.phase == PlayerPhase.OpponentTurn)
-			ChangeTurn();
-		else if (!IsWhitePlaying && BlackPlayer.phase == PlayerPhase.OpponentTurn)
+		if (Phase(IsWhitePlaying) == PlayerPhase.OpponentTurn)
 			ChangeTurn();
 	}
 	void ChangeTurn()
@@ -40,16 +38,26 @@ public class GamePhaseManager : MonoBehaviour
 	}
 	public void NextPhase()
 	{
+		Debug.Log("next");
 		if (IsWhitePlaying)
-			BlackPlayer.NextPhase();
-		else
 			WhitePlayer.NextPhase();
+		else
+			BlackPlayer.NextPhase();
+	}
+	public void CancelPiece()
+	{
+		if (IsWhitePlaying)
+			WhitePlayer.CancelPieceMove();
+		else
+			BlackPlayer.CancelPieceMove();
+	}
+	public PlayerPhase Phase(bool IsWhite)
+	{
+		return (IsWhite ? WhitePlayerPhase : BlackPlayerPhase);
 	}
 	public void OathSkip()
 	{
-		if (IsWhitePlaying)
-			BlackPlayer.OathSkip();
-		else
-			WhitePlayer.OathSkip();
+		BlackPlayer.OathSkip();
+		WhitePlayer.OathSkip();
 	}
 }

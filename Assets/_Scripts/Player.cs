@@ -17,6 +17,10 @@ public class Player : MonoBehaviour
 		else
 			phase += 1;
 	}
+	public void CancelPieceMove()
+	{
+		phase = PlayerPhase.PieceSelect;
+	}
 	public void OathSkip()
 	{
 		if (this.enabled && phase == PlayerPhase.FirstOath || phase == PlayerPhase.SecondOath)

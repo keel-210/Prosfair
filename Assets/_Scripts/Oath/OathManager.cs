@@ -50,6 +50,7 @@ public class OathManager : MonoBehaviour
 			o.AddRange(CheckBoard(b, IsWhite));
 		return o;
 	}
+	//ここ階層深すぎ
 	List<Oath> CheckBoard(Board board, bool IsWhite)
 	{
 		List<Oath> o = new List<Oath>();

@@ -347,7 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5372c58620912c04f829f8818b27e04b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1364854301}
 --- !u!114 &499901764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,7 +438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7df2f6390017de547886a7aab2bef999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1364854299}
 --- !u!114 &525710205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -872,7 +872,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5372c58620912c04f829f8818b27e04b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 2076814944}
 --- !u!114 &705609253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1141,9 +1141,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8c364f8febd25429a342e77e1561ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WhitePlayer: {fileID: 0}
-  BlackPlayer: {fileID: 0}
+  WhiteStock: {fileID: 1364854300}
+  BlackStock: {fileID: 2076814943}
   IsWhitePlaying: 0
+  WhiteMover: {fileID: 1364854299}
+  BlackMover: {fileID: 2076814942}
+  WhitePlayer: {fileID: 1364854301}
+  BlackPlayer: {fileID: 2076814944}
 --- !u!4 &1117728031
 Transform:
   m_ObjectHideFlags: 0
@@ -1210,7 +1214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7df2f6390017de547886a7aab2bef999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 2076814942}
 --- !u!114 &1190095228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1607,6 +1611,7 @@ GameObject:
   - component: {fileID: 1364854298}
   - component: {fileID: 1364854300}
   - component: {fileID: 1364854299}
+  - component: {fileID: 1364854301}
   m_Layer: 0
   m_Name: WhitePlayer
   m_TagString: Untagged
@@ -1642,9 +1647,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovableFieldReference: {fileID: 2407000731237650327, guid: f42b91752cdd10245bf6d0b849a96103,
     type: 3}
-  phase: 0
   IsWhitePlayer: 1
-  stock: {fileID: 0}
+  phaseManager: {fileID: 1117728028}
 --- !u!114 &1364854300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1658,9 +1662,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWhitePlayer: 1
-  stockUI: {fileID: 0}
-  basic: {fileID: 0}
-  phaseManager: {fileID: 0}
+  stockUI: {fileID: 526295342}
+  basic: {fileID: 11400000, guid: b8e6f6e0067b9cc469b9d372d7a04469, type: 2}
+  phaseManager: {fileID: 1117728028}
+--- !u!114 &1364854301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364854297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636196d946d46ac428aa9ff8f64a28c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsWhitePlayer: 1
 --- !u!114 &1391596595 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7234291256313722524, guid: 68da708e1393bc24a97270c54f24f99a,
@@ -1927,6 +1944,7 @@ GameObject:
   - component: {fileID: 2076814941}
   - component: {fileID: 2076814943}
   - component: {fileID: 2076814942}
+  - component: {fileID: 2076814944}
   m_Layer: 0
   m_Name: BlackPlayer
   m_TagString: Untagged
@@ -1962,9 +1980,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovableFieldReference: {fileID: 2407000731237650327, guid: f42b91752cdd10245bf6d0b849a96103,
     type: 3}
-  phase: 0
   IsWhitePlayer: 0
-  stock: {fileID: 0}
+  phaseManager: {fileID: 1117728028}
 --- !u!114 &2076814943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1978,9 +1995,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWhitePlayer: 0
-  stockUI: {fileID: 0}
-  basic: {fileID: 0}
-  phaseManager: {fileID: 0}
+  stockUI: {fileID: 526295342}
+  basic: {fileID: 11400000, guid: b8e6f6e0067b9cc469b9d372d7a04469, type: 2}
+  phaseManager: {fileID: 1117728028}
+--- !u!114 &2076814944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2076814940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636196d946d46ac428aa9ff8f64a28c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsWhitePlayer: 0
 --- !u!1 &2095968756
 GameObject:
   m_ObjectHideFlags: 0
@@ -2521,12 +2551,12 @@ PrefabInstance:
     - target: {fileID: 7234291256313722525, guid: 68da708e1393bc24a97270c54f24f99a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.00006357431
+      value: 0.000024431552
       objectReference: {fileID: 0}
     - target: {fileID: 7234291256313722525, guid: 68da708e1393bc24a97270c54f24f99a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000040203337
+      value: 0.17579581
       objectReference: {fileID: 0}
     - target: {fileID: 7234291257170228485, guid: 68da708e1393bc24a97270c54f24f99a,
         type: 3}
