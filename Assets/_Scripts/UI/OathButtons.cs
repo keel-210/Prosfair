@@ -12,8 +12,8 @@ public class OathButtons : MonoBehaviour
 	void Start()
 	{
 		SkipButton.onClick.AddListener(manager.ResetCheckStatus);
-		SkipButton.onClick.AddListener(manager.phaseManager.WhitePlayer.OathSkip);
-		SkipButton.onClick.AddListener(manager.phaseManager.BlackPlayer.OathSkip);
+		SkipButton.onClick.AddListener(manager.phaseManager.OathSkip);
+		SkipButton.onClick.AddListener(Clear);
 	}
 	void Update()
 	{
@@ -73,5 +73,8 @@ public class OathButtons : MonoBehaviour
 			Buttons.Remove(g);
 			Destroy(g);
 		}
+		Buttons = Buttons.Where(x => x != null).ToList();
+		if (Buttons.Count == 0)
+			SkipButton.onClick.Invoke();
 	}
 }

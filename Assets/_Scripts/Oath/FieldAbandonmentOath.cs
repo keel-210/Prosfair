@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class FieldAbandonmentOath : Oath
 {
-	Player White, Black;
-	public FieldAbandonmentOath(OathType _type, BoardManager _manager, Board b, List<IPiece> l, bool IsWhite, Player _White, Player _Black) : base(_type, _manager, b, l, IsWhite)
+	PieceStock White, Black;
+	public FieldAbandonmentOath(OathType _type, BoardManager _manager, Board b, List<IPiece> l, bool IsWhite, PieceStock _White, PieceStock _Black) : base(_type, _manager, b, l, IsWhite)
 	{
 		type = _type;
 		board = b;
@@ -41,8 +41,8 @@ public class FieldAbandonmentOath : Oath
 		var PiecesInRegion = BoardUtils.GetPiecesInRegion(b, minRegion, maxRegion);
 		var WhitesInRegion = PiecesInRegion.Where(x => x.IsWhitePlayer == true).ToList();
 		var BlacksInRegion = PiecesInRegion.Where(x => x.IsWhitePlayer == false).ToList();
-		White.stock.AddStock(WhitesInRegion);
-		Black.stock.AddStock(BlacksInRegion);
+		White.AddStock(WhitesInRegion);
+		Black.AddStock(BlacksInRegion);
 		foreach (IPiece p in PiecesInRegion)
 			p.KillSelf();
 	}

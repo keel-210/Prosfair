@@ -13,9 +13,9 @@ public class OathManager : MonoBehaviour
 	{
 		if (!IsChecked)
 		{
-			if (phaseManager.IsWhitePlaying && (phaseManager.WhitePlayer.phase == PlayerPhase.FirstOath || phaseManager.WhitePlayer.phase == PlayerPhase.SecondOath))
+			if (phaseManager.IsWhitePlaying && (phaseManager.WhitePlayerPhase == PlayerPhase.FirstOath || phaseManager.WhitePlayerPhase == PlayerPhase.SecondOath))
 				CheckBoard();
-			if (!phaseManager.IsWhitePlaying && (phaseManager.BlackPlayer.phase == PlayerPhase.FirstOath || phaseManager.BlackPlayer.phase == PlayerPhase.SecondOath))
+			if (!phaseManager.IsWhitePlaying && (phaseManager.BlackPlayerPhase == PlayerPhase.FirstOath || phaseManager.BlackPlayerPhase == PlayerPhase.SecondOath))
 				CheckBoard();
 		}
 	}
@@ -98,7 +98,7 @@ public class OathManager : MonoBehaviour
 		}
 		if (pieces.Count >= 9)
 			if (board.OccupiedPlayer != BoardOccupation.NonOccupied)
-				return new FieldAbandonmentOath(OathType.TypeEnhance, boards, board, pieces, IsWhite, phaseManager.WhitePlayer, phaseManager.BlackPlayer);
+				return new FieldAbandonmentOath(OathType.TypeEnhance, boards, board, pieces, IsWhite, phaseManager.WhiteStock, phaseManager.BlackStock);
 			else
 				return new TypeEnhanceOath(OathType.TypeEnhance, boards, board, pieces, IsWhite);
 		else

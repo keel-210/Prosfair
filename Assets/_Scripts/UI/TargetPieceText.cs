@@ -4,7 +4,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Text))]
 public class TargetPieceText : MonoBehaviour
 {
-	[SerializeField] Player player;
+	[SerializeField] PieceMover player;
 	Text text;
 	void Start()
 	{
