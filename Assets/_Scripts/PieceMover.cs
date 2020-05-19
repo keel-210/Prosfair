@@ -10,7 +10,7 @@ public class PieceMover : MonoBehaviour
 	//いろんなところからアクセスしすぎだこれでよし
 	//PhaseManagerに任せた方がいいのではPieceMoverになった以上phaseは分離するべきでは
 	public IPiece TargetPiece;
-	public bool IsWhitePlayer = false;
+	[SerializeField] bool IsWhitePlayer = false;
 	[SerializeField] GamePhaseManager phaseManager;
 	List<GameObject> MovableFieldCache = new List<GameObject>();
 	List<Vector2Int> MovablePos = new List<Vector2Int>();
@@ -96,11 +96,5 @@ public class PieceMover : MonoBehaviour
 			bp.pos = hit.point;
 		}
 		return bp;
-	}
-	public class BoardAndPos
-	{
-		public Board board;
-		public Vector2Int PosOnBoard;
-		public Vector3 pos;
 	}
 }

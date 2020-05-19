@@ -8,6 +8,7 @@ public class OathButtons : MonoBehaviour
 	public GameObject button, subButton;
 	public GameObject EnhanceButton, FieldButton, TypeEnhanceButton, FieldAbandonmentButton;
 	public Button SkipButton;
+	public bool AutoEnhance;
 	List<GameObject> Buttons = new List<GameObject>();
 	void Start()
 	{
@@ -29,10 +30,10 @@ public class OathButtons : MonoBehaviour
 		List<Oath> oaths = IsWhitePlaying ? manager.WhiteOaths : manager.BlackOaths;
 		if (oaths.Count == 0)
 			SkipButton.onClick.Invoke();
+		if (AutoEnhance)
+			DoAllEnhanceOath(oaths);
 		foreach (Oath o in oaths)
-		{
 			Buttons.Add(AddButton(o));
-		}
 		SetButtonPos();
 	}
 	void SetButtonPos()
@@ -52,12 +53,20 @@ public class OathButtons : MonoBehaviour
 		{
 			case OathType.Enhance: obj = EnhanceButton; break;
 			case OathType.Field: obj = FieldButton; break;
-			case OathType.TypeEnhance: obj = EnhanceButton; break;
-			case OathType.FieldAbandonment: obj = EnhanceButton; break;
+			case OathType.TypeEnhance: obj = TypeEnhanceButton; break;
+			case OathType.FieldAbandonment: obj = FieldAbandonmentButton; break;
 		}
 		obj = Instantiate(obj, transform.position, Quaternion.identity, transform);
 		obj.GetComponent<OathButtonBase>().oath = o;
 		return obj;
+	}
+	void DoAllEnhanceOath(List<Oath> oaths)
+	{
+		foreach (Oath o in oaths)
+		{
+			if (o.type == OathType.Enhance)
+				o.OathEffect(new OathUIData(o.pieces.OrderBy(x => x.Stage).First()));
+		}
 	}
 	public void Clear()
 	{

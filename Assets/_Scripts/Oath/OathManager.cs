@@ -99,7 +99,7 @@ public class OathManager : MonoBehaviour
 		}
 		if (pieces.Count >= 9)
 			if (board.OccupiedPlayer != BoardOccupation.NonOccupied)
-				return new FieldAbandonmentOath(OathType.TypeEnhance, boards, board, pieces, IsWhite, phaseManager.WhiteStock, phaseManager.BlackStock);
+				return new FieldAbandonmentOath(OathType.TypeEnhance, boards, board, pieces, IsWhite, phaseManager.WhitePlayer.stock, phaseManager.BlackPlayer.stock);
 			else
 				return new TypeEnhanceOath(OathType.TypeEnhance, boards, board, pieces, IsWhite);
 		else

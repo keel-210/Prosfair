@@ -12,11 +12,8 @@ public class GamePhaseManager : MonoBehaviour
 	public PlayerPhase BlackPlayerPhase { get { return BlackPlayer.phase; } }
 	//こうかな...違うな...Playerの隠蔽という初期の目的死んでんじゃん
 	//戦域放棄でStock要求されるのが痛い
-	public PieceStock WhiteStock, BlackStock;
 	public bool IsWhitePlaying;
-	[SerializeField] PieceMover WhiteMover, BlackMover;
-	[SerializeField] Player WhitePlayer, BlackPlayer;
-
+	public Player WhitePlayer, BlackPlayer;
 	void Start()
 	{
 		IsWhitePlaying = true;
@@ -38,7 +35,6 @@ public class GamePhaseManager : MonoBehaviour
 	}
 	public void NextPhase()
 	{
-		Debug.Log("next");
 		if (IsWhitePlaying)
 			WhitePlayer.NextPhase();
 		else
