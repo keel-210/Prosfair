@@ -6,7 +6,10 @@ public class StockTest : MonoBehaviour
 	void Start()
 	{
 		List<IPiece> p = new List<IPiece>();
-		p.Add(new Gore());
+		Gore g = new Gore();
+		g.Stage = 3;
+		g.Experience = 10;
+		p.Add(g);
 		stock.AddStock(p);
 	}
 }

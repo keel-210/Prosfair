@@ -40,6 +40,12 @@ public class GamePhaseManager : MonoBehaviour
 		else
 			BlackPlayer.NextPhase();
 	}
+	public void GoToSeceondOath()
+	{
+		NextPhase();
+		if (Phase(IsWhitePlaying) == PlayerPhase.PieceSelected)
+			NextPhase();
+	}
 	public void CancelPiece()
 	{
 		if (IsWhitePlaying)

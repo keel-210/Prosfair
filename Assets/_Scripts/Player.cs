@@ -14,17 +14,18 @@ public class Player : MonoBehaviour
 	}
 	void Update()
 	{
-		if (stock.stockUI.target != null)
-			PieceUtilExclusiveProcess(true);
-		else
-			PieceUtilExclusiveProcess(false);
+		if (phase == PlayerPhase.PieceSelect || phase == PlayerPhase.PieceSelected)
+		{
+			if (stock.stockUI.IsSelectingOtherThanDefault)
+				PieceUtilExclusiveProcess(true);
+			else
+				PieceUtilExclusiveProcess(false);
+		}
 	}
 	void PieceUtilExclusiveProcess(bool EnableStock)
 	{
 		stock.enabled = EnableStock;
 		mover.enabled = !EnableStock;
-		if (phase == PlayerPhase.PieceSelected)
-			CancelPieceMove();
 	}
 	public void NextPhase()
 	{

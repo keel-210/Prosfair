@@ -5,43 +5,51 @@ public class PieceStock : MonoBehaviour
 {
 	//Field多すぎ問題
 	public PieceStockUI stockUI;
-	[SerializeField] bool IsWhitePlayer;
+	public List<Stock> stocks = new List<Stock>();
 	[SerializeField] BasicReference basic;
 	[SerializeField] GamePhaseManager phaseManager;
 	[SerializeField] BoardManager manager;
-	public List<Stock> stocks = new List<Stock>();
+	[SerializeField] bool IsWhitePlayer;
 	List<Vector2Int> MovablePos = new List<Vector2Int>();
 	List<GameObject> MovableFieldCache = new List<GameObject>();
 	Stock targetStockCashe;
-	bool IsLoadedStock;
+	bool IsLoaded;
 	void Update()
 	{
-		if (phaseManager.Phase(IsWhitePlayer) == PlayerPhase.PieceSelect)
-			PieceSelectPhase();
-		else if (phaseManager.Phase(IsWhitePlayer) == PlayerPhase.PieceSelected)
+		if (phaseManager.Phase(IsWhitePlayer) == PlayerPhase.PieceSelect || phaseManager.Phase(IsWhitePlayer) == PlayerPhase.PieceSelected)
 			SetStockPhase();
 		else if (phaseManager.Phase(IsWhitePlayer) == PlayerPhase.OpponentTurn)
 			Reset();
 	}
+	void OnDisable()
+	{
+		Reset();
+	}
 	void PieceSelectPhase()
 	{
-		if (!IsLoadedStock)
+		if (!IsLoaded)
 		{
-			stockUI.LoadStock();
-			IsLoadedStock = true;
+			Debug.Log("Stock Prepare");
+			stockUI.LoadStock(this);
+			IsLoaded = true;
 		}
-		phaseManager.NextPhase();
 	}
 	void SetStockPhase()
 	{
+		PieceSelectPhase();
 		if (targetStockCashe != stockUI.target)
 		{
 			MovablePos = PieceUtils.InitialPositionFromPieceType(stockUI.target.type, IsWhitePlayer);
 			MovablePos = PosSanityCheck(manager.mainBoard, MovablePos);
 			DisplayEnableSetPos();
 		}
-
-		if (stockUI.target.Stage == 0 || MovablePos.Count == 0 || !Input.GetMouseButtonDown(0))
+		if (!stockUI.IsSelectingOtherThanDefault)
+		{
+			MovableFieldCache.ForEach(x => Destroy(x));
+			MovableFieldCache.Clear();
+			phaseManager.CancelPiece();
+		}
+		if (MovablePos.Count == 0 || !Input.GetMouseButtonDown(0))
 			return;
 		BoardAndPos rayPos = RayCastScreen();
 		if (rayPos.pos != Vector3.zero)
@@ -53,9 +61,12 @@ public class PieceStock : MonoBehaviour
 	}
 	void Reset()
 	{
-		IsLoadedStock = false;
+		if (!IsLoaded)
+			return;
+		IsLoaded = false;
 		MovableFieldCache.ForEach(x => Destroy(x));
 		MovableFieldCache.Clear();
+		targetStockCashe = null;
 	}
 	void DisplayEnableSetPos()
 	{
@@ -77,6 +88,7 @@ public class PieceStock : MonoBehaviour
 	{
 		foreach (IPiece p in list)
 			stocks.Add(new Stock(p.pieceType, p.Stage, p.Experience));
+		Debug.Log(stocks);
 	}
 	void SetStock(PieceStock.Stock _stock, Board board, Vector2Int boardPos)
 	{
@@ -84,7 +96,7 @@ public class PieceStock : MonoBehaviour
 		IPiece p = obj.GetComponent<IPiece>();
 		obj.GetComponent<PieceBase>().IsWhitePlayer = IsWhitePlayer;
 		board.AddPiece(p, boardPos);
-		phaseManager.NextPhase();
+		phaseManager.GoToSeceondOath();
 		stocks.Remove(_stock);
 	}
 	BoardAndPos RayCastScreen()
