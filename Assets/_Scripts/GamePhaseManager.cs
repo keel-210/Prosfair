@@ -2,16 +2,9 @@ using UnityEngine;
 
 public class GamePhaseManager : MonoBehaviour
 {
-	//ここのPlayer隠蔽した方がいいと思う
-	//OathSkipとかNextPhaseもここ経由の方がいいのではというか全部ここのPlayer経由してるしな
-	//でもここ起点にするとPlayerのNextPhaseをpublicにしなきゃいけないじゃんそれだとここから以外でもアクセスできるじゃんそれ意味なくない？
 	//PlayerFacadeみたいな扱い...?
-	//PieceMoverになったことでphase管理の意味合いが薄くなりすぎ
-	//改めてPlayerクラスが必要ではないか
 	public PlayerPhase WhitePlayerPhase { get { return WhitePlayer.phase; } }
 	public PlayerPhase BlackPlayerPhase { get { return BlackPlayer.phase; } }
-	//こうかな...違うな...Playerの隠蔽という初期の目的死んでんじゃん
-	//戦域放棄でStock要求されるのが痛い
 	public bool IsWhitePlaying;
 	public Player WhitePlayer, BlackPlayer;
 	void Start()
@@ -20,7 +13,7 @@ public class GamePhaseManager : MonoBehaviour
 	}
 	void Update()
 	{
-		if (Phase(IsWhitePlaying) == PlayerPhase.OpponentTurn)
+		if (Phase() == PlayerPhase.OpponentTurn)
 			ChangeTurn();
 	}
 	void ChangeTurn()
@@ -43,7 +36,7 @@ public class GamePhaseManager : MonoBehaviour
 	public void GoToSeceondOath()
 	{
 		NextPhase();
-		if (Phase(IsWhitePlaying) == PlayerPhase.PieceSelected)
+		if (Phase() == PlayerPhase.PieceSelected)
 			NextPhase();
 	}
 	public void CancelPiece()
@@ -53,9 +46,9 @@ public class GamePhaseManager : MonoBehaviour
 		else
 			BlackPlayer.CancelPieceMove();
 	}
-	public PlayerPhase Phase(bool IsWhite)
+	public PlayerPhase Phase()
 	{
-		return (IsWhite ? WhitePlayerPhase : BlackPlayerPhase);
+		return (IsWhitePlaying ? WhitePlayerPhase : BlackPlayerPhase);
 	}
 	public void OathSkip()
 	{

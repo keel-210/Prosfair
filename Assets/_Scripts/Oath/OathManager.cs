@@ -13,9 +13,8 @@ public class OathManager : MonoBehaviour
 	{
 		if (!IsChecked)
 		{
-			if (phaseManager.IsWhitePlaying && (phaseManager.WhitePlayerPhase == PlayerPhase.FirstOath || phaseManager.WhitePlayerPhase == PlayerPhase.SecondOath))
-				CheckBoard();
-			if (!phaseManager.IsWhitePlaying && (phaseManager.BlackPlayerPhase == PlayerPhase.FirstOath || phaseManager.BlackPlayerPhase == PlayerPhase.SecondOath))
+			if (phaseManager.Phase() == PlayerPhase.FirstOath ||
+			phaseManager.Phase() == PlayerPhase.SecondOath)
 				CheckBoard();
 		}
 	}
@@ -48,6 +47,8 @@ public class OathManager : MonoBehaviour
 		o.AddRange(CheckBoard(boards.mainBoard, IsWhite));
 		foreach (Board b in boards.subBoards)
 			o.AddRange(CheckBoard(b, IsWhite));
+		//ここで複合宣誓チェック
+		CheckCompositOaths(o, IsWhite);
 		return o;
 	}
 	//ここ階層深すぎ
@@ -61,14 +62,26 @@ public class OathManager : MonoBehaviour
 			foreach (List<Vector2Int> r in OathChecker.RelativeCoordinates)
 			{
 				List<IPiece> pieces = OathUtils.PiecesPlacementCheck(r, p, board);
-				if (pieces.Count == r.Count && !OathUtils.IsInitialPlacementException(pieces))
-					if (pieces[0].IsWhitePlayer == IsWhite && !DeplicationOathException(pieces))
+				if (pieces.Count == r.Count && !OathUtils.IsInitialPlacementException(pieces)
+					&& pieces[0].IsWhitePlayer == IsWhite && !DuplicationOathException(pieces))
+					if (pieces.Count < 9)
 						o.Add(OathTypeInstantiate(boards, board, pieces, IsWhite));
 			}
 		}
 		return o;
 	}
-	bool DeplicationOathException(List<IPiece> l)
+	public List<Oath> CheckCompositOaths(List<Oath> _o, bool IsWhite)
+	{
+		List<Oath> o = _o;
+		var _4s = o.Where(x => x.pieces.Count == 4).ToList();
+		var _5s = o.Where(x => x.pieces.Count == 5).ToList();
+		var _6s = o.Where(x => x.pieces.Count == 6).ToList();
+		var _7s = o.Where(x => x.pieces.Count == 7).ToList();
+		var prepare = OathChecker.ALLCompositeOathCheck(_4s, _5s, _6s, _7s);
+		//CompositeOathPrepareを元にOathを作る
+		return o;
+	}
+	bool DuplicationOathException(List<IPiece> l)
 	{
 		List<Oath> target;
 		if (l[0].IsWhitePlayer)
@@ -87,22 +100,17 @@ public class OathManager : MonoBehaviour
 		}
 		return false;
 	}
+	//複合宣誓じゃない場合
 	public Oath OathTypeInstantiate(BoardManager boards, Board board, List<IPiece> pieces, bool IsWhite)
 	{
 		var check = OathChecker.FieldOathCheck(board, pieces, IsWhite);
 		if (check != null && check.FieldSize < board.size)
-		{
-			Debug.Log((check != null).ToString() + " " + check.WhitePieceCount + " " + check.BlackPieceCount);
-			var f = new FieldOath(OathType.Field, boards, board, pieces, IsWhite);
-			f.Initialize(check);
-			return f;
-		}
-		if (pieces.Count >= 9)
-			if (board.OccupiedPlayer != BoardOccupation.NonOccupied)
-				return new FieldAbandonmentOath(OathType.TypeEnhance, boards, board, pieces, IsWhite, phaseManager.WhitePlayer.stock, phaseManager.BlackPlayer.stock);
-			else
-				return new TypeEnhanceOath(OathType.TypeEnhance, boards, board, pieces, IsWhite);
-		else
-			return new EnhanceOath(OathType.Enhance, boards, board, pieces, IsWhite);
+			return new FieldOath(OathType.Field, boards, board, pieces, IsWhite, check);
+		return new EnhanceOath(OathType.Enhance, boards, board, pieces, IsWhite);
+	}
+	//複合宣誓の場合
+	public Oath CompositeOathInstantiate(BoardManager boards, Board board, List<IPiece> pieces, bool IsWhite)
+	{
+		return new TypeEnhanceOath(OathType.TypeEnhance, boards, board, pieces, IsWhite);
 	}
 }

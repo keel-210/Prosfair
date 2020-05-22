@@ -16,9 +16,10 @@ public class PieceStock : MonoBehaviour
 	bool IsLoaded;
 	void Update()
 	{
-		if (phaseManager.Phase(IsWhitePlayer) == PlayerPhase.PieceSelect || phaseManager.Phase(IsWhitePlayer) == PlayerPhase.PieceSelected)
+		if (phaseManager.Phase() == PlayerPhase.PieceSelect ||
+		phaseManager.Phase() == PlayerPhase.PieceSelected)
 			SetStockPhase();
-		else if (phaseManager.Phase(IsWhitePlayer) == PlayerPhase.OpponentTurn)
+		else if (phaseManager.Phase() == PlayerPhase.OpponentTurn)
 			Reset();
 	}
 	void OnDisable()
@@ -29,7 +30,6 @@ public class PieceStock : MonoBehaviour
 	{
 		if (!IsLoaded)
 		{
-			Debug.Log("Stock Prepare");
 			stockUI.LoadStock(this);
 			IsLoaded = true;
 		}
@@ -88,7 +88,6 @@ public class PieceStock : MonoBehaviour
 	{
 		foreach (IPiece p in list)
 			stocks.Add(new Stock(p.pieceType, p.Stage, p.Experience));
-		Debug.Log(stocks);
 	}
 	void SetStock(PieceStock.Stock _stock, Board board, Vector2Int boardPos)
 	{

@@ -17,9 +17,9 @@ public class PieceMover : MonoBehaviour
 	BoardAndPos BoardAndPosCache;
 	void Update()
 	{
-		if (phaseManager.Phase(IsWhitePlayer) == PlayerPhase.PieceSelect)
+		if (phaseManager.Phase() == PlayerPhase.PieceSelect)
 			PieceSelectPhase();
-		else if (phaseManager.Phase(IsWhitePlayer) == PlayerPhase.PieceSelected)
+		else if (phaseManager.Phase() == PlayerPhase.PieceSelected)
 			PieceMovePhase();
 	}
 	void PieceSelectPhase()
