@@ -78,7 +78,11 @@ public class OathManager : MonoBehaviour
 		var _6s = o.Where(x => x.pieces.Count == 6).ToList();
 		var _7s = o.Where(x => x.pieces.Count == 7).ToList();
 		var prepare = OathChecker.ALLCompositeOathCheck(_4s, _5s, _6s, _7s);
-		//CompositeOathPrepareを元にOathを作る
+		//CompositeOathPrepareを元にOathを作る俺は俺の頭を信頼してここを書く特にテストしてないけど多分動く
+		prepare.ForEach(x =>
+		{
+			o.Add(CompositeOathInstantiate(boards, x.board, x.pieces, IsWhite));
+		});
 		return o;
 	}
 	bool DuplicationOathException(List<IPiece> l)
@@ -111,6 +115,9 @@ public class OathManager : MonoBehaviour
 	//複合宣誓の場合
 	public Oath CompositeOathInstantiate(BoardManager boards, Board board, List<IPiece> pieces, bool IsWhite)
 	{
+		var check = OathChecker.FieldOathCheck(board, pieces, IsWhite);
+		if (check != null && check.FieldSize < board.size)
+			return new FieldOath(OathType.Field, boards, board, pieces, IsWhite, check);
 		return new TypeEnhanceOath(OathType.TypeEnhance, boards, board, pieces, IsWhite);
 	}
 }

@@ -26,6 +26,9 @@ public static class OathChecker
 
 		Vector2Int minPieces = Vector2IntUtils.RegionMin(pieces);
 		Vector2Int maxPieces = Vector2IntUtils.RegionMax(pieces);
+		Vector2Int OathIncludingSize = maxPieces - minPieces;
+		if (OathIncludingSize.x > fieldSize || OathIncludingSize.y > fieldSize)
+			return null;
 		List<List<Vector2Int>> checkPoses = Vector2IntUtils.PossibleRegionPos(fieldSize, board.size, minPieces, maxPieces);
 
 		FieldCheck f = RegionCheck(board, checkPoses, IsWhite, fieldSize);
@@ -69,87 +72,79 @@ public static class OathChecker
 	}
 	public static List<CompositeOathPrepare> ALLCompositeOathCheck(List<Oath> _4s, List<Oath> _5s, List<Oath> _6s, List<Oath> _7s)
 	{
-		List<CompositeOathPrepare> prepares = new List<CompositeOathPrepare>();
-		prepares.AddRange(_9PiecesCheck(_4s, _5s));
-		prepares.AddRange(_11PiecesCheck(_5s, _7s));
-		prepares.AddRange(_13PiecesCheck(_6s, _7s));
-		prepares.AddRange(_15PiecesCheck(_4s, _5s, _6s));
-		prepares.AddRange(_17PiecesCheck(_4s, _5s));
-		prepares.AddRange(_21PiecesCheck(_7s));
-		prepares.AddRange(_26PiecesCheck(_5s, _7s));
-		prepares.AddRange(_30PiecesCheck(_4s, _5s, _6s, _7s));
-		return prepares;
+		_4sCache = _4s;
+		_5sCache = _5s;
+		_6sCache = _6s;
+		_7sCache = _7s;
+		return _nPiecesCheck(_4s, _5s, _6s, _7s);
 	}
-	// 		9駒位相 全ての戦域において成立 ただし特殊駒の発生は小戦域に限定される 
-	// 4 + 5駒位相(駒重複不可) 11段階目まで
-	//   殉教者の発生には堕天使陣形が必要
-	// 11駒位相 全ての戦域において成立 
-	// 5 + 7駒位相(駒重複不可) 13段階目まで
-	// 13駒位相 全ての戦域において成立 ただし特殊駒の発生は小戦域に限定される 
-	// 6 + 7駒位相(駒重複不可) 15段階目まで
-	//   管理者の発生には傀儡陣形が必要
-
-	// 15駒位相 7×7以上の小戦域においてのみ成立 
-	// 4 + 5 + 6駒位相(駒重複不可)
-	// 17駒位相 7×7以上の小戦域においてのみ成立
-	//  5 + 4 + 4 + 4駒位相(駒重複不可)
-	// 審問官の発生には堕天使，背教者陣形が必要
-	// 21駒位相 7×7以上の小戦域においてのみ成立 
-	// 7 + 7 + 7駒位相(駒重複不可)
-	// 越境者の発生には暴君，混沌陣形が必要
-
-	// 26駒位相 13×13の小戦域においてのみ成立
-	// 7 + 7 + 7 + 5駒位相(駒重複不可)
-	// 狂戦士の発生には堕天使，背教徒，戦塔，混沌陣形が必要
-	// 30駒位相 13×13の小戦域においてのみ成立 陣形全部→これ実現できるか後で考える
-	static List<CompositeOathPrepare> _9PiecesCheck(List<Oath> _4s, List<Oath> _5s)
+	static List<Oath> _4sCache, _5sCache, _6sCache, _7sCache;
+	static List<List<int>> CompositeCombinationCounts = new List<List<int>>
+	{
+		 new List<int> { 4, 5 },
+		 new List<int> { 5,7 },
+		 new List<int> { 6, 7 },
+		 new List<int> { 4, 5,6 },
+		 new List<int> { 4, 4,4,5 },
+		 new List<int> { 7,7,7 },
+		 new List<int> { 7,7,7,5 },
+		 new List<int> { 4, 5,7,7,7 }
+		 };
+	static List<CompositeOathPrepare> _nPiecesCheck(List<Oath> _4s, List<Oath> _5s, List<Oath> _6s, List<Oath> _7s)
 	{
 		List<CompositeOathPrepare> prepares = new List<CompositeOathPrepare>();
-		foreach (var _4 in _4s)
-			foreach (var _5 in _5s)
-				if (_4.board == _5.board)
+		//組み合わせでボードが同じものを探す再帰
+		List<List<Oath>> Combinations = new List<List<Oath>>();
+		foreach (var c in CompositeCombinationCounts)
+			foreach (var l in CombinationChecker(c))
+				Combinations.Add(l);
+		Combinations.ForEach(x =>
+		{
+			List<IPiece> l = new List<IPiece>();
+			foreach (Oath o in x)
+				l.AddRange(o.pieces);
+			if (!OathChecker.DuplicatePieceCheck(l))
+				prepares.Add(new CompositeOathPrepare(x[0].board, l));
+		});
+		return prepares;
+	}
+	static List<List<Oath>> CombinationChecker(List<int> c)
+	{
+		List<List<Oath>> l = new List<List<Oath>>();
+		for (int i = 1; i < c.Count; i++)
+		{
+			if (i == 1)
+				l = CompositeCombination(_nPieceOaths(c[0]).Select(x => new List<Oath> { x }).ToList(), _nPieceOaths(c[1]));
+			else
+				l = CompositeCombination(l, _nPieceOaths(c[i]));
+		}
+		return l;
+	}
+	static List<List<Oath>> CompositeCombination(List<List<Oath>> a, List<Oath> b)
+	{
+		List<List<Oath>> l = new List<List<Oath>>();
+		foreach (var _a in a)
+			foreach (var _b in b)
+			{
+				if (_a[0].board == _b.board)
 				{
-					List<IPiece> l = _4.pieces;
-					l.AddRange(_5.pieces);
-					if (!OathChecker.DuplicatePieceCheck(l))
-					{ }
+					List<Oath> _l = new List<Oath>(_a);
+					_l.Add(_b);
+					l.Add(_l);
 				}
-		return prepares;
+			}
+		return l;
 	}
-	static List<CompositeOathPrepare> _11PiecesCheck(List<Oath> _5s, List<Oath> _7s)
+	static List<Oath> _nPieceOaths(int n)
 	{
-		List<CompositeOathPrepare> prepares = new List<CompositeOathPrepare>();
-		return prepares;
-	}
-	static List<CompositeOathPrepare> _13PiecesCheck(List<Oath> _6s, List<Oath> _7s)
-	{
-		List<CompositeOathPrepare> prepares = new List<CompositeOathPrepare>();
-		return prepares;
-	}
-	static List<CompositeOathPrepare> _15PiecesCheck(List<Oath> _4s, List<Oath> _5s, List<Oath> _6s)
-	{
-		List<CompositeOathPrepare> prepares = new List<CompositeOathPrepare>();
-		return prepares;
-	}
-	static List<CompositeOathPrepare> _17PiecesCheck(List<Oath> _4s, List<Oath> _5s)
-	{
-		List<CompositeOathPrepare> prepares = new List<CompositeOathPrepare>();
-		return prepares;
-	}
-	static List<CompositeOathPrepare> _21PiecesCheck(List<Oath> _7s)
-	{
-		List<CompositeOathPrepare> prepares = new List<CompositeOathPrepare>();
-		return prepares;
-	}
-	static List<CompositeOathPrepare> _26PiecesCheck(List<Oath> _5s, List<Oath> _7s)
-	{
-		List<CompositeOathPrepare> prepares = new List<CompositeOathPrepare>();
-		return prepares;
-	}
-	static List<CompositeOathPrepare> _30PiecesCheck(List<Oath> _4s, List<Oath> _5s, List<Oath> _6s, List<Oath> _7s)
-	{
-		List<CompositeOathPrepare> prepares = new List<CompositeOathPrepare>();
-		return prepares;
+		switch (n)
+		{
+			case 4: return _4sCache;
+			case 5: return _5sCache;
+			case 6: return _6sCache;
+			case 7: return _7sCache;
+			default: return null;
+		}
 	}
 	public static bool DuplicatePieceCheck(List<IPiece> l)
 	{
